@@ -8,6 +8,12 @@ class ListNode {
      }
 }
 
+/**
+ * for循环法
+ * @param $l1
+ * @param $l2
+ * @return mixed
+ */
 function addTwoNumbers ($l1, $l2)
 {
     // 使用$l1作为结果链表，$res记录指向链表的开始地方，防止开始指针丢失
@@ -62,5 +68,36 @@ function addTwoNumbers ($l1, $l2)
         $l1->next = new ListNode(1);
     }
 
+    return $res;
+}
+
+// 递归方法
+function addTwoNumbers2 ($l1, $l2)
+{
+    if (empty($l1) && empty($l2)) return;
+
+    $total = $l1->val + $l2->val;
+    $addFlag = floor($total / 10); // 进位标志
+    $val = $total % 10;
+    $res = new ListNode($val); // 构造节点
+
+    // 特殊情况，补充节点，对齐数量
+    if (empty($l1->next) && !empty($l2->next)) {
+        $l1->next = new ListNode(0);
+    }
+    if (!empty($l1->next) && empty($l2->next)) {
+        $l2->next = new ListNode(0);
+    }
+    if (empty($l1->next) && empty($l2->next) && $addFlag) {
+        // 进位标志为1时，也要补充节点
+        $l1->next = new ListNode(0);
+        $l2->next = new ListNode(0);
+    }
+    if ($l1->next && $l2->next && $addFlag) {
+        $l1->next->val = $l1->next->val + $addFlag;
+    }
+
+    // 当两个链表为空，且进位标志为0时，就不用为链表加节点。从而会导致下个节点为空，则为递归出口
+    $res->next = addTwoNumbers2($l1->next, $l2->next);
     return $res;
 }
