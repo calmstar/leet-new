@@ -20,7 +20,6 @@
 /**
  *
  * 数组长度为n, 最长的字符长度为m
- *
     时间复杂度：O (n * mlgm)
  * 空间复杂度： O (n)
  * @param $strs
@@ -31,11 +30,7 @@ function groupAnagrams($strs)
     $res = [];
     foreach ($strs as $v) {
         // 将字符转成数组
-        $len = strlen($v);
-        $temp = [];
-        for ($i = 0; $i < $len; $i++) {
-            $temp[] = $v[$i];
-        }
+        $temp = str_split($v);
         sort($temp);
         $val = implode('', $temp);
 
