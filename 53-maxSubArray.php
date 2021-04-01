@@ -17,5 +17,19 @@ function maxSubArray($nums) {
     return $max;
 }
 
+// 动态规划法: 如果前面相加的和小于0，则不进行相加
+function maxSubArray2($nums)
+{
+    $cou = count($nums);
+
+    for ($i = 1; $i < $cou; $i++) {
+        if ($nums[$i-1] > 0) {
+            // 处理后，每个都是该位置上的最大值
+            $nums[$i] = $nums[$i] + $nums[$i-1];
+        }
+    }
+    return max($nums);
+}
+
 $nums = [-2,1,-3,4,-1,2,1,-5,4];
-var_dump(maxSubArray($nums));
+var_dump(maxSubArray2($nums));
