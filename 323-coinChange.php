@@ -56,15 +56,15 @@ class Solution {
         $min = $amount+1;
         $cou = count($coins);
         for ($i = 0; $i < $cou; $i++) {
-            if ($amount-$coins[$i] < 0) {
-                continue;
-            }
+            if ($amount-$coins[$i] < 0) continue;
             $tmp = $this->coinChangeRecursive($coins, $amount-$coins[$i]);
-            if ($tmp >= 0 && $tmp < $min) {
+            if ($tmp == -1) continue; // 这种兑换方式无解，跳过
+
+            if ($tmp < $min) {
                 $min = $tmp + 1;
             }
         }
-        $this->memo[$amount] = $min == $amount+1 ? -1 : $min;
+        $this->memo[$amount] = $min == $amount+1 ? -1 : $min; // $min == $amount+1 进入循环体，但是确没被任意一次替换
         return $this->memo[$amount];
     }
 }
