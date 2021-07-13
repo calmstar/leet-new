@@ -40,4 +40,72 @@ class Solution {
         return $dp[$amount] == $amount+1 ? -1 : $dp[$amount];
     }
 
+    /**
+     * 递归：
+     *      1 明确函数定义 ：  当金额为$amount时，所需的最少硬币为  function xx($coins, $amount) { return $nums; }
+     *      2 确定baseCase:  if ($amount == 0) return 0; if ($amount < 0) return -1;
+     *      3 写出状态转移方程：return min(xx($coins, $amount-$coin1),  xx($coins, $amount-$coin2) ) // 三种选择取出一种最小的
+     */
+    private $memo=[];//备忘录
+    function coinChangeRecursive ($coins, $amount)
+    {
+        if ($amount == 0) return 0;
+        if ($amount < 0) return -1;
+        if (isset($this->memo[$amount])) return $this->memo[$amount];
+
+        $min = $amount+1;
+        $cou = count($coins);
+        for ($i = 0; $i < $cou; $i++) {
+            if ($amount-$coins[$i] < 0) {
+                continue;
+            }
+            $tmp = $this->coinChangeRecursive($coins, $amount-$coins[$i]);
+            if ($tmp >= 0 && $tmp < $min) {
+                $min = $tmp + 1;
+            }
+        }
+        $this->memo[$amount] = $min == $amount+1 ? -1 : $min;
+        return $this->memo[$amount];
+    }
 }
+
+/**
+ * [186,419,83,408]
+6249
+ */
+$res = (new Solution())->coinChangeRecursive([186,419,83,408], 6249);
+var_dump($res);
+
+
+class SolutionOthers {
+
+    /**
+     * @param Integer[] $coins
+     * @param Integer $amount
+     * @return Integer
+     */
+    private $memo=[];//备忘录
+    function coinChange($coins, $amount) {
+        if($amount<0){//递归终止
+            return -1;
+        }
+        if($amount==0){//递归终止
+            return 0;
+        }
+        if(isset($this->memo[$amount])){//查找备忘录
+            return $this->memo[$amount];
+        }
+
+        $min=PHP_INT_MAX;
+        for($i=0;$i<sizeof($coins);$i++){//遍历搜索树
+            $res=$this->coinChange($coins,$amount-$coins[$i]);
+            if($res>=0&&$res<$min){
+                $min=$res+1;
+            }
+        }
+
+        $this->memo[$amount]=$min==PHP_INT_MAX?-1:$min;//备忘录更新
+        return $this->memo[$amount];
+    }
+}
+
