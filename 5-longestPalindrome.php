@@ -69,6 +69,49 @@ function isPalindrome ($str)
     return true;
 }
 
-$s = 'babad';
-$res = longestPalindrome2($s);
+//$s = 'babad';
+//$res = longestPalindrome2($s);
+//var_dump($res);
+
+//- -----------------
+
+// 中心扩展法
+function xx ($str)
+{
+    $len = strlen($str);
+    if ($len < 2) return $len;
+    // 以每个字母（$str[$i]）为中心向两边扩展，和 $str[$i]   $str[$i+1] 为中心向两边扩展
+    $maxStr = '';
+    for ($i = 0; $i < $len; $i++) {
+        $res = findPalindrome($i, $i, $str);
+        $res2 = findPalindrome($i, $i+1, $str);
+        // 得到最长的回文子串
+        $tmp = strlen($res) > strlen($res2) ? $res : $res2;
+        $maxStr = strlen($maxStr) > strlen($tmp) ? $maxStr : $tmp;
+    }
+    return $maxStr;
+}
+
+function findPalindrome ($l, $r, $str)
+{
+    $len = strlen($str);
+    $flag = false;
+    while ($l <= $r && $l >= 0 && $r < $len && $str[$l] == $str[$r]) {
+        $l--;
+        $r++;
+        $flag = true;
+    }
+    // 还原回去
+    $l = $l+1;
+    $r = $r-1;
+    if ($flag) {
+        return substr($str, $l, $r-$l+1);
+    } else {
+        return '';
+    }
+
+}
+
+$sss = 'babad';
+$res = xx($sss);
 var_dump($res);
