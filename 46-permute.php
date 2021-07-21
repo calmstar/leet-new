@@ -15,8 +15,6 @@ function permute($nums) {
     $current = [];
     backTracking($res, $visited, $nums, $current);
     return $res;
-
-
 }
 
 function backTracking (&$res, $visited, $nums, $current)
@@ -36,6 +34,32 @@ function backTracking (&$res, $visited, $nums, $current)
         }
     }
 }
+//$nums = [1,2,3];
+//var_dump(permute($nums));
+
+
+function permuteV2 ($nums)
+{
+    if (empty($nums)) return [];
+    $res = []; // 结果
+    $tracking = [];
+    backtrackingV2($res, $nums, $tracking);
+    return $res;
+}
+
+function backtrackingV2 (&$res, $nums, $tracking)
+{
+    if (count($tracking) == count($nums)) {
+        $res[] = $tracking;
+        return;
+    }
+    foreach ($nums as $num) {
+        if (in_array($num, $tracking)) continue;
+        array_push($tracking, $num);
+        backtrackingV2($res, $nums, $tracking);
+        array_pop($tracking);
+    }
+}
 
 $nums = [1,2,3];
-var_dump(permute($nums));
+var_dump(permuteV2($nums));
