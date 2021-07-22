@@ -2,7 +2,9 @@
 
 class Solution {
 
+    function minWindow($s, $t) {
 
+    }
 
     /**
      * v1版本会超时
@@ -67,7 +69,7 @@ $t = "ABC";
 // 预期结果
 //"BANC"
 
-$res = (new Solution())->minWindow($s, $t);
+$res = (new Solution())->minWindowV1($s, $t);
 //$res = (new Solution())->isInclude("BANC", "ABC");
 var_dump($res);
 
