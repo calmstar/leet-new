@@ -3,11 +3,70 @@
 class Solution {
 
     /**
+     * labuladong 套路双指针滑动窗口解法
+     * @param $s1
+     * @param $s2
+     * @return bool
+     */
+    function checkInclusion ($s1, $s2)
+    {
+        $s1Len = strlen($s1);
+        $s2Len = strlen($s2);
+        $need = [];
+        $windowHad = [];
+        $left = 0; // [$left, $right) 左开右闭
+        $right = 0;
+        $valid = 0;
+
+        // 初始化所需要拼凑的字符串
+        for ($i = 0; $i < $s1Len; $i++) {
+            if (!isset($need[$s1[$i]])) {
+                $need[$s1[$i]] = 1;
+            } else {
+                $need[$s1[$i]]++;
+            }
+        }
+        $needSize = count($need);
+
+        while ($right < $s2Len) {
+            // 获取右边即将获得的字符
+            $rTmp = $s2[$right];
+            $right++;
+            if ($need[$rTmp]) {
+                $windowHad[$rTmp]++;
+                if ($need[$rTmp] == $windowHad[$rTmp]) {
+                    $valid++;
+                }
+            }
+
+            // 右边大于左边两个位置时，需要移动左边索引
+            while ($right-$left >= $s1Len) {
+                if ($valid == $needSize) {
+                    return true;
+                }
+
+                // 获取即将抛弃的左边的字符
+                $lTmp = $s2[$left];
+                $left++;
+                // 看收缩抛弃的字符是否在$need中
+                if ($need[$lTmp]) {
+                    if ($windowHad[$lTmp] == $need[$lTmp] ) {
+                        $valid--;
+                    }
+                    $windowHad[$lTmp]--;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 自己想的滑动窗口解法
      * @param String $s1
      * @param String $s2
      * @return Boolean
      */
-    function checkInclusion ($s1, $s2)
+    function checkInclusionV2 ($s1, $s2)
     {
         $s1Len = strlen($s1);
         $s2Len = strlen($s2);
@@ -56,9 +115,9 @@ class Solution {
     }
 }
 
-//$a = "ab";
-//$b = "eidbaooo";
-$a = "adc";
-$b = "dcda";
+$a = "ab";
+$b = "eidbaooo";
+//$a = "adc";
+//$b = "dcda";
 $res = (new Solution())->checkInclusion($a, $b);
 var_dump($res);
