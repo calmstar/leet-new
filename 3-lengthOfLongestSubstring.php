@@ -72,7 +72,31 @@ function lengthOfLongestSubstring2($s)
 }
 
 
+function lengthOfLongestSubstring3($s)
+{
+   $len = strlen($s);
+   if ($len < 2) return $len;
 
-$s = "hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-$res = lengthOfLongestSubstring2($s);
+   $left = $right =0;
+   $res = 0;
+   $window = [];
+   while ($right < $len) {
+       $rTmp = $s[$right];
+       $right++;
+       $window[$rTmp]++;
+
+       // 左边收缩
+       while ($window[$rTmp] > 1) {
+           $lTmp = $s[$left];
+           $left++;
+           $window[$lTmp]--;
+       }
+       $res = max($res, $right-$left);
+   }
+   return $res;
+}
+
+$s = ""; // 返回3
+//$s = "hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+$res = lengthOfLongestSubstring3($s);
 var_dump($res);
