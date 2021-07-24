@@ -33,5 +33,6 @@ class Solution {
         return $nums;
     }
 }
+$a = [3,1,2,4];
 $res = (new Solution())->sortArrayByParity([0,4]);
 var_dump($res);
