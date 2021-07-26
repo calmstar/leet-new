@@ -1,9 +1,12 @@
 <?php
 /**
+ * 从小到大排序
+ *
  * 时间复杂度：最坏O(n2),最好O(n)
  * 空间复杂度：O（1）
  * 稳定排序（原地排序）
- * 比较排序
+ *
+ * 除了基数排序、计数排序、桶排序是非比较排序，其他的都是比较排序
  *
  * @param $nums
  * @return mixed
@@ -15,8 +18,9 @@ function bubble ($nums)
 
     for ($i = 0; $i < $cou; $i++) {
         $isBubble = false;
-        for ($j = 0; $j < $cou-$i-1; $j++) {
+        for ($j = 0; $j < $cou-$i-1; $j++) { // 因为要 $j+1，所以这里要$cou-$i-1
             if ($nums[$j] > $nums[$j+1]) {
+                // 交换
                 $temp = $nums[$j];
                 $nums[$j] = $nums[$j+1];
                 $nums[$j+1] = $temp;
