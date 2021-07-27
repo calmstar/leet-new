@@ -49,4 +49,18 @@ class Solution {
         return $root;
     }
 
+    function invertTreeV2 ($root)
+    {
+        if ($root == null) return null;
+
+        // 交换节点指针指向,使得属性左右指针互换
+        $temp = $root->right;
+        $root->right = $root->left;
+        $root->left = $temp;
+
+        $this->invertTreeV2($root->left);
+        $this->invertTreeV2($root->right);
+        return $root;
+    }
+
 }
