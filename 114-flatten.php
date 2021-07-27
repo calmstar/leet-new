@@ -16,7 +16,7 @@ class Solution {
 
     /**
      * 将二叉树原地展开
-     *      1 将左右节点拉平
+     *      1 将左右节点拉平 -- 后序遍历，"递"到剩下最后一个节点
      *      2 将拉平的左节点，连接到右节点中
      * @param TreeNode $root
      * @return NULL
