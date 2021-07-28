@@ -30,8 +30,8 @@ class Solution {
         }
         // 翻转 $a指针 --> $b 之间的链表（左闭右开），并返回该翻转后链表后的头部
         $newHead = $this->reverse($a, $b);
-        $a->next = $this->reverseKGroup($b, $k);
-        return $newHead;
+        $a->next = $this->reverseKGroup($b, $k); // $a 此时为尾部，进行next指向连接下一段节点
+        return $newHead; // 返回连接好的起点
 
     }
 
