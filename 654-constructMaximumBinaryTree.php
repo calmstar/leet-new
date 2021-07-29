@@ -30,9 +30,11 @@ class Solution {
         if ($cou == 0) {
             return null;
         }
+        // 找到当前数组下的最大值的索引
         $rootIndex = $this->findMaxIndex($nums, 0, $cou-1);
         $root = new TreeNode($nums[$rootIndex]);
 
+        // 后序遍历，找到最后一个节点后开始返回
         if ($rootIndex-1 >= 0) {
             $root->left = $this->constructMaximumBinaryTree(array_slice($nums, 0, $rootIndex));
         } else {
