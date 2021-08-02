@@ -1,4 +1,5 @@
 <?php
+require_once 'tools.php';
 
 /**
  * Definition for a binary tree node.
@@ -14,42 +15,58 @@
  * }
  */
 class Solution {
-
     private $count = 0;
     private $val = 0;
-    private $arr = [];
 
+    function kthSmallest($root, $k)
+    {
+        $this->traverse($root, $k);
+        return $this->val;
+    }
+    function traverse ($root, $k)
+    {
+        if ($root === null) return;
+
+        $this->traverse($root->left, $k);
+        $this->count++; // 注意是中序遍历 count++要放在中间，放在其他地方会出问题
+        if ($k == $this->count) {
+            $this->val = $root->val;
+            return;
+        }
+        $this->traverse($root->right, $k);
+    }
 
     /**
+     * 我的解法
      * 中序遍历二叉搜索树即可
      * @param TreeNode $root
      * @param Integer $k
      * @return Integer
      */
-    function kthSmallest($root, $k)
+    function kthSmallestMy($root, $k)
     {
         if ($root === null) return;
 
-        $this->count++;
         $this->kthSmallest($root->left, $k);
-//        array_push($arr, $root->val);
-//        if ($this->count == $k) {
-//            $this->val = $root->val;
-//            return;
-//        }
-        $this->debug($this->deep++, "{$root->val} -- $this->count");
+        $this->count++;
+        if ($this->count == $k) {
+            $this->val = $root->val;
+            return $this->val;  // 防止[1] 1 的情况，只有一个元素
+        }
+//       debug($this->deep++, "{$root->val} -- $this->count");
         $this->kthSmallest($root->right, $k);
         return $this->val;
     }
-
     // 递归调试代码
     private $deep = 0;
-    function debug ($deep, $str = '')
-    {
-        $space = '--';
-        for ($i = 0; $i < $deep; $i++) {
-            $space = $space . '--';
-        }
-        echo $space . ': '. $str . PHP_EOL;
-    }
 }
+
+
+$arr = [3,1,4,null,2];
+$root = buildTree($arr);
+
+// 得到从小到大，第k位的数字
+$k = 2;
+$res = (new Solution())->kthSmallest($root, $k);
+var_dump($res);
+
