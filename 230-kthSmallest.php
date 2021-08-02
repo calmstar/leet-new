@@ -19,11 +19,6 @@ class Solution {
     private $val = 0;
     private $arr = [];
 
-    function xx () {
-        echo 44  . PHP_EOL;
-
-    }
-
 
     /**
      * 中序遍历二叉搜索树即可
@@ -58,6 +53,3 @@ class Solution {
         echo $space . ': '. $str . PHP_EOL;
     }
 }
-echo 11 . PHP_EOL;
-(new Solution())->xx();
-var_dump(222);
