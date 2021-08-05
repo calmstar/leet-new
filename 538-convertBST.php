@@ -16,6 +16,7 @@ class Solution {
 
     private $sum = 0;
     /**
+     * 转换二叉树变为累加树
      * @param TreeNode $root
      * @return TreeNode
      */
