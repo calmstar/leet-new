@@ -64,27 +64,50 @@ class Solution {
     // 翻转链表的前n个节点
     private $num = 0; // 当前遍历的节点个数
     private $after = null; // n+1个节点，用来根旧的头节点衔接
-    function reverseNV2 ($root, $n)
+    function reverseNMy ($root, $n)
     {
         if ($root === null) return null;
+        if ($n == 1) return $root;
         $this->num++;
         if ($this->num == $n) {
             // 到达了前n个节点
             $this->after = $root->next;
             return $root;
         }
-        $newNode = $this->reverseNV2($root->next, $n);
+        $newNode = $this->reverseNMy($root->next, $n);
         $this->num--;
         $root->next->next = $root;
-        if ($this->num == 1) { // 可模拟下，确实是为1的时候
-            $root->next = $this->after;
-        } else {
-            $root->next = null;
-        }
+//        if ($this->num == 1) { // 可模拟下，确实是为1的时候
+//            $root->next = $this->after;
+//        } else {
+//            $root->next = null;
+//        }
+        // 直接让其一直指向 $this->after 也可
+        $root->next = $this->after;
         return $newNode;
     }
 
+    // 反转链表m-n部分的的链表 -- 意思跟前面的反转前n个链表的很接近
+    function reverseBetweenMy ($root, $m, $n)
+    {
+        if ($root === null) return null;
+        if ($m == 1) {
+            return $this->reverseNMy($root, $n-$m+1);
+        } else {
+            $curr = $root;
+            $mTmp = $m;
+            while ($mTmp !== 2) {
+                // 需为目标$m节点的前一个
+                $curr = $curr->next;
+                $mTmp--;
+            }
+            $tmp = $curr->next;
+            $curr->next = $this->reverseNMy($tmp, $n-$m+1);
+            return $root;
+        }
+    }
+
 }
-$root = buildListNode([1,2,3,4,5]);
-$res = (new Solution())->reverseNV2($root, 3);
+$root = buildListNode([1,2,3]);
+$res = (new Solution())->reverseBetweenMy($root, 3,3);
 print_r($res);
