@@ -1,4 +1,5 @@
 <?php
+require_once 'tools.php';
 /**
  * Definition for a singly-linked list.
  * class ListNode {
@@ -17,7 +18,7 @@ class Solution {
      * https://mp.weixin.qq.com/s/5wz_YJ3lTkDH3nWfVDi5SA
      *
      * 从后往前处理
-     * 类似后序遍历，递归到尾部，才开始处理翻转
+     * 类似后序遍历，递归到尾部，才开始处理翻转 -- 后序遍历
      *
      * @param ListNode $head
      * @return ListNode
@@ -60,4 +61,30 @@ class Solution {
         return $currNode;
     }
 
+    // 翻转链表的前n个节点
+    private $num = 0; // 当前遍历的节点个数
+    private $after = null; // n+1个节点，用来根旧的头节点衔接
+    function reverseNV2 ($root, $n)
+    {
+        if ($root === null) return null;
+        $this->num++;
+        if ($this->num == $n) {
+            // 到达了前n个节点
+            $this->after = $root->next;
+            return $root;
+        }
+        $newNode = $this->reverseNV2($root->next, $n);
+        $this->num--;
+        $root->next->next = $root;
+        if ($this->num == 1) { // 可模拟下，确实是为1的时候
+            $root->next = $this->after;
+        } else {
+            $root->next = null;
+        }
+        return $newNode;
+    }
+
 }
+$root = buildListNode([1,2,3,4,5]);
+$res = (new Solution())->reverseNV2($root, 3);
+print_r($res);

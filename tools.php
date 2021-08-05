@@ -1,5 +1,5 @@
 <?php
-
+// 定义树
 class TreeNode {
      public $val = null;
      public $left = null;
@@ -10,6 +10,15 @@ class TreeNode {
          $this->right = $right;
      }
  }
+// 定义链表
+class ListNode {
+      public $val = 0;
+      public $next = null;
+      function __construct($val = 0, $next = null) {
+          $this->val = $val;
+          $this->next = $next;
+      }
+}
 
 // 递归调试代码
 function debug ($deep, $str = '')
@@ -63,4 +72,18 @@ function buildChild ($root, $val, $direction)
         $root->right = $node;
     }
     return $node;
+}
+
+// ---- 建立单链表 ----
+function buildListNode($arr)
+{
+    if (empty($arr)) return null;
+    // head节点
+    $head = new ListNode(); // 哑巴节点
+    $curr = $head;
+    foreach ($arr as $v) {
+        $curr->next = new ListNode($v);
+        $curr = $curr->next;
+    }
+    return $head->next;
 }
