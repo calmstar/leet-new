@@ -45,7 +45,7 @@ class Solution {
     // ---------- 方法2 ----------
 
     private $left = null;
-    // 通过后序遍历：时间和空间复杂度都是O(n)
+    // 通过后序遍历：时间复杂度O（n），空间复杂度都是O(n) - 共用了同个链表，但是有递归空间，O（n）
     function isPalindromeBackend ($head)
     {
         $this->left = $head;
