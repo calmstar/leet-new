@@ -43,4 +43,28 @@ class Solution {
         $this->connectTwoNodes($left->right, $right->left);
     }
 
+    // ----- 自己写的 ------
+    function connectMy ($root)
+    {
+        if ($root === null) return null;
+        // 前序遍历
+        // 连接自己的子节点
+        if ($root->left !== null && $root->right !== null) {
+            $root->left->next = $root->right;
+            // 找到所有跨节点，并连接跨节点
+            $this->connectOthers($root->left->right, $root->right->left);
+        }
+        $this->connectMy($root->left);
+        $this->connectMy($root->right);
+        return $root;
+    }
+    // 找到所有跨节点，并连接跨节点
+    function connectOthers ($otherLeft, $otherRight)
+    {
+        if ($otherLeft !== null  && $otherRight !== null) {
+            $otherLeft->next =  $otherRight;
+            $this->connectOthers($otherLeft->right, $otherRight->left);
+        }
+    }
+
 }
