@@ -1,4 +1,5 @@
 <?php
+require_once 'tools.php';
 /**
  * Definition for a binary tree node.
  * class TreeNode {
@@ -42,7 +43,31 @@ class Solution {
         }
         $curr->right = $right;
     }
+
+    // ----- 自己写的 ----
+    function my ($root)
+    {
+        if ($root === null) return null; // 这个肯定要返回null
+        if ($root->left === null && $root->right === null) return null; // 当没有子节点的时候也要返回null
+
+        $this->my($root->left);
+        $this->my($root->right);
+        // 到达该节点的最右子节点
+        $curr = $root->left;
+        if ($curr === null) return $root;
+        while ($curr->right !== null) {
+            $curr = $curr->right;
+        }
+        $curr->right = $root->right;
+        $root->right = $root->left;
+        $root->left = null;
+        return $root;
+    }
 }
+$arr = [1,2,5,3,4,null,6];
+$root = buildTree($arr);
+$res = (new Solution())->my($root);
+print_r($res);
 
 /**
  * 给你二叉树的根结点 root ，请你将它展开为一个单链表：
