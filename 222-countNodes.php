@@ -41,7 +41,7 @@ class Solution {
         return $this->count;
     }
 
-    // 利用特性进行 : https://mp.weixin.qq.com/s/xW2fbE3v4JhMSKfxoxIHBg
+    // 利用特性进行 : https://mp.weixin.qq.com/s/xW2fbE3v4JhMSKfxoxIHBg lgN * lgN
     function countNodeSpecial ($root)
     {
         if ($root === null) return 0;

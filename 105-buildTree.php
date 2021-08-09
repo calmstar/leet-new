@@ -40,12 +40,12 @@ class Solution {
 
     function build ($preorder, $preStart, $preEnd, $inorder, $inStart, $inEnd)
     {
-        $this->debug($this->deep++, "{$preStart}-{$preEnd}, {$inStart}-{$inEnd}");
+//        $this->debug($this->deep++, "{$preStart}-{$preEnd}, {$inStart}-{$inEnd}");
         if ($preStart > $preEnd) return null;
 
         // 前序遍历的第一个值就是根节点; 根节点对应的左右节点需要配合中序遍历来看
-        $rootVal = $preorder[0];
-        $root = new TreeNode($preorder[$rootVal]);
+        $rootVal = $preorder[$preStart];
+        $root = new TreeNode($rootVal);
         // 中序遍历根节点的左边就是左子树，右边就是右子树
         $midIndex = 0;
         for ($i = $inStart; $i <= $inEnd; $i++) {
@@ -57,8 +57,10 @@ class Solution {
         // 前序遍历数组，就可以根据上面左子树的$leftSize来确定元素
         $leftSize = $midIndex-$inStart;
 
-        $root->left = $this->build($preorder, $preStart+1, $preStart+$leftSize, $inorder, $inStart, $midIndex-1);
-        $root->right = $this->build($preorder, $preStart+$leftSize+1, $preEnd, $inorder, $midIndex+1, $inEnd);
+        $root->left = $this->build($preorder, $preStart+1, $preStart+$leftSize,
+            $inorder, $inStart, $midIndex-1);
+        $root->right = $this->build($preorder, $preStart+$leftSize+1, $preEnd,
+            $inorder, $midIndex+1, $inEnd);
         return $root;
     }
 
