@@ -41,4 +41,28 @@ class Solution {
         return $this->count;
     }
 
+    // 利用特性进行 : https://mp.weixin.qq.com/s/xW2fbE3v4JhMSKfxoxIHBg
+    function countNodeSpecial ($root)
+    {
+        if ($root === null) return 0;
+        // 完全二叉树中，左右子树一定有一棵是满二叉树
+        $l = 0;
+        $r = 0;
+        $lCurr = $root;
+        $rCurr = $root;
+        while ($lCurr !== null) {
+            $l++;
+            $lCurr = $lCurr->left;
+        }
+        while ($rCurr !== null) {
+            $r++;
+            $rCurr = $rCurr->right;
+        }
+        if ($l === $r) {
+            // 利用满二叉树特性进行计算
+            return pow(2, $l) - 1;
+        }
+        return 1 + $this->countNodeSpecial($root->left) + $this->countNodeSpecial($root->right);
+    }
+
 }
