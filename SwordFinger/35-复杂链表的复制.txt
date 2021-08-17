@@ -1,0 +1,30 @@
+/**
+ * // Definition for a Node.
+ * function Node(val, next, random) {
+ *    this.val = val;
+ *    this.next = next;
+ *    this.random = random;
+ * };
+ */
+
+/**
+无法使用php
+ * @param {Node} head
+ * @return {Node}
+ */
+var copyRandomList = function(head) {
+  const visited = new Map()
+
+  function dfs(head) {
+    if(head === null) return null
+    if(visited.has(head)) return visited.get(head)
+
+    const copy = new Node(head.val)
+    visited.set(head, copy)
+    copy.next = dfs(head.next)
+    copy.random = dfs(head.random)
+    return copy
+  }
+  
+  return dfs(head)
+};
