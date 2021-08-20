@@ -25,7 +25,7 @@ class Solution {
                 if (!isset($nums[$mid-1])) {
                     return $mid; // 没有前一个数字，说明只有一个元素
                 }
-                // 说明left-mid区间不正常，继续探测 left-mid-1
+                // 说明left-mid-1区间不正常，继续探测 left-mid-1
                 $right = $mid-1;
             }
         }
