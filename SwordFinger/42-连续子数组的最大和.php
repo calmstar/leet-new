@@ -19,7 +19,7 @@ class Solution {
         return max($nums);
     }
 
-    // 上面原地改造数组 空间复杂度O(1)  --- 下面使用正常的一维dp（无法拍扁成常量）
+    // 上面原地改造数组 空间复杂度O(1)  --- 下面使用正常的一维dp
     function maxSubArrayV2 ($nums)
     {
         if (empty($nums)) return 0;
@@ -30,6 +30,21 @@ class Solution {
             $dp[$i] = max($nums[$i], $nums[$i] + $dp[$i-1]);
         }
         return max($dp);
+    }
+
+    // 拍扁成常量
+    function maxSubArrayV3 ($nums)
+    {
+        if (empty($nums)) return 0;
+        $cou = count($nums);
+        $res = $nums[0]; // 结果，最大的子串和
+        $tmp1 = $nums[0]; // 每次比较只跟前一个有关
+
+        for ($i = 1; $i < $cou; $i++) {
+            $tmp1 = max($nums[$i], $nums[$i] + $tmp1);
+            $res = max($res, $tmp1);
+        }
+        return $res;
     }
 
         /**
