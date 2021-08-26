@@ -19,6 +19,19 @@ class Solution {
         return max($nums);
     }
 
+    // 上面原地改造数组 空间复杂度O(1)  --- 下面使用正常的一维dp（无法拍扁成常量）
+    function maxSubArrayV2 ($nums)
+    {
+        if (empty($nums)) return 0;
+        $cou = count($nums);
+        $dp = [];
+        $dp[0] = $nums[0];
+        for ($i = 1; $i < $cou; $i++) {
+            $dp[$i] = max($nums[$i], $nums[$i] + $dp[$i-1]);
+        }
+        return max($dp);
+    }
+
         /**
      * 输入: nums = [-2,1,-3,4,-1,2,1,-5,4] // [-2, 1, 1, 4, 3, 5, 6, 2, 5]
     输出: 6
