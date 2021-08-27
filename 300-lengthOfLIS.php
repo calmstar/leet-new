@@ -2,6 +2,12 @@
 class Solution {
 
     /**
+     *
+     * 与 /Users/starc/code/leet-new/SwordFinger/42-连续子数组的最大和.php 类似
+     *
+     *
+     * 最长递增子序列
+     *
      * 输入：nums = [10,9,2,5,3,7,101,18]
     输出：4
     解释：最长递增子序列是 [2,3,7,101]，因此长度为 4 。

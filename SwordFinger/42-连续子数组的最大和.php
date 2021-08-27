@@ -1,6 +1,12 @@
 <?php
 class Solution {
 
+    /**
+     *
+     * 与 300-lengthOfLIS.php 类似
+     * @param $nums
+     * @return int|mixed
+     */
     function maxSubArray($nums)
     {
         $cou = count($nums);
