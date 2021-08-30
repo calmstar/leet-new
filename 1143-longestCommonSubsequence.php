@@ -3,7 +3,7 @@ class Solution {
 
     /**
      * https://mp.weixin.qq.com/s/ZhPEchewfc03xWv9VP3msg
-     * 最长公共子序列
+     * 计算 最长公共子序列 的长度
      *
      * @param String $text1
      * @param String $text2
