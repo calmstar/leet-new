@@ -96,6 +96,8 @@ class Solution {
         $row = count($grid) - 1;
         $col = count($grid[0]) - 1;
         $dp = [];
+
+        // 二维压缩成一维，需要一行行初始化
         // 初始化第一行
         $dp[0] = $grid[0][0]; // 特殊处理，防止下面的$i-1数组越界
         for ($i = 1; $i <= $col; $i++) {
