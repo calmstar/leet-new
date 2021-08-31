@@ -49,6 +49,12 @@ class Solution {
     }
 
     // 方法2 ---- dpTable -------
+
+    /**
+     * 时间复杂度和空间复杂度都是O(MN)
+     * @param $grid
+     * @return int|mixed
+     */
     function dpTable ($grid)
     {
         if (empty($grid)) return 0;
@@ -76,13 +82,42 @@ class Solution {
         return $dp[$row][$col];
     }
 
-    // 减少空间复杂度：使用 一维数组 作为dpTable。todo: baseCase 不好做投影处理
+    /**
+     * 时间复杂度O(mn), 空间复杂度O(n)
+     * 减少空间复杂度：使用 一维数组 作为dpTable  直接去掉一维的行
+     *
+     * https://leetcode-cn.com/problems/minimum-path-sum/solution/gun-dong-shu-zu-kong-jian-you-hua-by-jia-ke18/
+     * https://mp.weixin.qq.com/s/SnyN1Gn6DTLm0uJyp5l6CQ
+     * @param $grid
+     */
     function dpTableV2 ($grid)
     {
+        if (empty($grid)) return 0;
+        $row = count($grid) - 1;
+        $col = count($grid[0]) - 1;
+        $dp = [];
+        // 初始化第一行
+        $dp[0] = $grid[0][0]; // 特殊处理，防止下面的$i-1数组越界
+        for ($i = 1; $i <= $col; $i++) {
+            $dp[$i] += $grid[0][$i] + $dp[$i-1];
+        }
 
+        for ($i = 1; $i <= $row; $i++) { // 从第2行开始，第1行已经初始化
+            $dp[0] = $dp[0] + $grid[$i][0]; // 永远都是取上一行的第一列
+            for ($j = 1; $j <= $col; $j++) { // 从第2列开始，第1列在外层循环会初始化好
+                $dp[$j] = min($dp[$j], $dp[$j-1]) + $grid[$i][$j]; // 刚好可以投影下来
+            }
+        }
+        return $dp[$col];
     }
 
-    // 减少空间复杂度：使用 grid 自身作为dpTable
+    /**
+     *  时间复杂度O(mn), 空间复杂度O(1)
+     *  减少空间复杂度：使用 grid 自身作为dpTable
+     *
+     * @param $grid
+     * @return int|mixed
+     */
     function dpTableV3 ($grid)
     {
         if (empty($grid)) return 0;
@@ -112,5 +147,11 @@ $grid = [
     [1,5,1],
     [4,2,1]
 ];
-$res = (new Solution())->dpTableV3($grid);
+$grid = [
+    [1,2],
+    [5,6],
+    [1,1]
+];//预期8
+
+$res = (new Solution())->dpTableV2($grid);
 var_export($res);
