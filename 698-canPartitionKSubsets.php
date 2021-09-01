@@ -52,6 +52,56 @@ class Solution {
         return false;
     }
 
+    // ------- 回溯算法：穷举所有可能，站在桶角度，看怎么选择数字 -------
+    function canPartitionKSubsetsV2($nums, $k)
+    {
+        if ($k > count($nums)) return false;
+        $sum = array_sum($nums);
+        if ($sum % $k != 0) return false; // 不能正整除，小数，false
+        $target = $sum / $k;
+
+        $used = []; // 当前$nums元素是否被使用
+        $bucket = 0; // 目前k号桶里面已经装的数字之和为bucket
+        $start = 0; // nums的索引位置，从0开始
+        return  $this->backTrackingByBucket($nums, $k, $target, $bucket, $start, $used);
+    }
+
+    /**
+     * @param $nums
+     * @param $k
+     * @param $target
+     * @param $bucket
+     * @param $start
+     * @param $used
+     * @return bool
+     */
+    function backTrackingByBucket ($nums, $k, $target, $bucket, $start, $used)
+    {
+        if ($k == 0) return true; // 所有桶都被装满了，而且nums一定全部用完了。因为 target == sum / k
+        if ($bucket == $target) {
+            // 装满了当前桶，递归穷举下一个桶的选择;让下一个桶从 nums[0] 开始选数字
+            return $this->backTrackingByBucket($nums, $k-1, $target, 0, 0, $used);
+        }
+        // 从 start 开始向后探查有效的 nums[i] 装入当前桶
+        for ($i = $start; $i < count($nums); $i++) {
+            if ($used[$i]) continue; // 数组元素只能使用以此
+            if ($nums[$i] + $bucket > $target) continue; // // 当前桶装不下 nums[i]
+
+            // 做选择
+            $used[$i] = true;
+            $bucket += $nums[$i];
+            // 递归穷举下一个数字是否装入当前桶
+            if ( $this->backTrackingByBucket($nums, $k, $target, $bucket, $start+1, $used) ) {
+                return true;
+            }
+            // 撤销选择
+            $used[$i] = false;
+            $bucket -= $nums[$i];
+        }
+        return false;
+    }
+
+
     // 题外话遍历数组的两种方式：for循环 和 递归。递归：
     function traverse ($nums, $index)
     {
