@@ -59,6 +59,7 @@ class Solution {
         $sum = array_sum($nums);
         if ($sum % $k != 0) return false; // 不能正整除，小数，false
         $target = $sum / $k;
+        rsort($nums);
 
         $used = []; // 当前$nums元素是否被使用
         $bucket = 0; // 目前k号桶里面已经装的数字之和为bucket
