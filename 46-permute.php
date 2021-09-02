@@ -1,6 +1,7 @@
 <?php
 
 /**
+ * 排列
  * @param Integer[] $nums
  * @return void
  */

@@ -1,4 +1,5 @@
 <?php
+// 子集
 function subsets($nums) {
     $numsLen=sizeof($nums);
     if($numsLen==0)//递归终止

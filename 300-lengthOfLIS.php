@@ -4,7 +4,9 @@ class Solution {
     /**
      *
      * 与 /Users/starc/code/leet-new/SwordFinger/42-连续子数组的最大和.php 类似
+     * （ /Users/starc/code/leet-new/53-maxSubArray.php 最大连续子数组和 ）
      *
+     * /Users/starc/code/leet-new/1143-longestCommonSubsequence.php 1143.最长公共子序列
      *
      * 最长递增子序列
      *

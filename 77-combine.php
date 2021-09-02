@@ -1,5 +1,6 @@
 <?php
 
+// 组合
 function combine($n, $k)
 {
     $res = [];
