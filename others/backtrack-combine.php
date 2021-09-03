@@ -4,6 +4,54 @@
 /**
  * https://mp.weixin.qq.com/s/qT6WgR6Qwn7ayZkI3AineA
  * 回溯算法 --- 穷举组合
+ * 输入两个数字 n, k，算法输出 [1..n] 中 k 个数字的所有组合
+ *
+ * 比如输入 n = 4, k = 2，输出如下结果，顺序无所谓，但是不能包含重复（按照组合的定义，[1,2] 和 [2,1] 也算重复）：
+[
+[1,2],
+[1,3],
+[1,4],
+[2,3],
+[2,4],
+[3,4]
+]
+ */
+
+class Solution {
+
+    private $res = [];
+    /**
+     * @param $n integer 决定宽度
+     * @param $k integer 决定高度
+     */
+    function combine ($n, $k)
+    {
+        $start = 1;
+        $tracking = [];
+        $this->backtracking($n, $k, $start, $tracking);
+        return $this->res;
+    }
+
+    function backtracking ($n, $k, $start, $tracking)
+    {
+        if (count($tracking) == $k) $this->res[] = $tracking;
+
+        for ($i = $start; $i <= $n; $i++) {
+            array_push($tracking, $i);
+            // 注意这里start的值是在i+1；也可以让其从0开始，但是就需要判断是否存在in_array(xx, $track)
+            $this->backtracking($n, $k, $i+1, $tracking);
+            array_pop($tracking);
+        }
+    }
+}
+$n = 4;
+$k = 2;
+$res = (new Solution())->combine($n, $k);
+print_r($res);
+
+
+/**
+ *  相关知识：
  *
  * 组合：顺序无关  数学符号 C
  * 排列：顺序有关  数学符号 A
