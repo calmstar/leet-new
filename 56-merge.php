@@ -1,5 +1,6 @@
 <?php
 /**
+ * https://mp.weixin.qq.com/s/Eb6ewVajH56cUlY9LetRJw
  *
  * 输入：intervals = [[1,3],[2,6],[8,10],[15,18]]
 输出：[[1,6],[8,10],[15,18]]
@@ -48,8 +49,47 @@ function merge($intervals)
     }
     return $res;
 }
+
 //$intervals =  [[2,3],[4,5],[6,7],[8,9],[1,10]];
 $intervals = [[1,3],[2,6],[8,10],[15,18]];
 $intervals = [[2,3],[5,5],[2,2],[3,4],[3,4]];
-$res = merge($intervals);
-//var_dump($res);
+$intervals =  [[1,4],[2,3]];
+$intervals = [[2,3],[4,5],[6,7],[8,9],[1,10]];
+$res = mergeV2($intervals);
+var_dump($res);
+
+// --------------- v2 ---------------
+// 参考：https://mp.weixin.qq.com/s/Eb6ewVajH56cUlY9LetRJw
+// 题意：只要相交就合并
+function mergeV2($intervals)
+{
+    if (empty($intervals)) return $intervals;
+    // 排序，二维数组根据start排序即可
+    $start = [];
+    foreach ($intervals as $v) {
+        $start[] = $v[0];
+    }
+    array_multisort($start, SORT_ASC, $intervals);
+    // 上一段的最左和最右
+    $left = $intervals[0][0];
+    $right = $intervals[0][1];
+    $cou = count($intervals);
+    $res = [];
+    $res[] = [$left, $right];
+    for ($i = 1; $i < $cou; $i++) {
+        if ($right < $intervals[$i][0]) {
+            // 不相交
+            $left = $intervals[$i][0];
+            $right = $intervals[$i][1];
+            // 新增结果
+            $res[] = [$left, $right];
+            continue;
+        }
+        // 重合了，看看右边值谁大(左边谁小)，取得然后修改到 上一个结果值
+        $right = $intervals[$i][1] > $right ? $intervals[$i][1] : $right;
+        // 变换值
+        $lastIndex = count($res) - 1;
+        $res[$lastIndex][1] = $right;
+    }
+    return $res;
+}
