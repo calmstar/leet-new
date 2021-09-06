@@ -1,4 +1,5 @@
 <?php
+
 function removeElement(&$nums, $val)
 {
     foreach ($nums as $k => $v) {
