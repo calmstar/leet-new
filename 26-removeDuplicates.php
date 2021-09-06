@@ -1,5 +1,14 @@
 <?php
+/**
+ * 删除有序数组中的重复项
+ *
+ * 输入：nums = [1,1,2]
+输出：2, nums = [1,2]
+解释：函数应该返回新的长度 2 ，并且原数组 nums 的前两个元素被修改为 1, 2 。不需要考虑数组中超出新长度后面的元素。
 
+ * @param $nums
+ * @return int
+ */
 // php特有的方法，不涉及数组的元素搬移
 function removeDuplicates(&$nums) {
     $val = '';
@@ -26,7 +35,7 @@ function removeDuplicatesV2(&$nums)
     while ($fast < $cou) {
         if ($nums[$fast] != $nums[$slow]) { // nums是排序好的
             $slow++;
-            $nums[$slow] = $nums[$fast];
+            $nums[$slow] = $nums[$fast]; // 将不重复的元素全部放在左边
         }
         $fast++;
     }
