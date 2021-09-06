@@ -17,6 +17,7 @@
  */
 class Solution {
 
+    private $memo = [];
     /**
      * 分治法解决
      * @param String $expression
@@ -24,6 +25,8 @@ class Solution {
      */
     function diffWaysToCompute($expression)
     {
+        if (isset($this->memo[$expression])) return $this->memo[$expression];
+
         $len = strlen($expression);
         $res = [];
         // for循环里递归，有点回溯算法的味道；算法能解决问题就好，不要在意具体算法思想的定义和界限
@@ -50,10 +53,11 @@ class Solution {
         }
         if (empty($res)) {
             // 说明该字符表达式没有运算符号
-            return [$expression];
+            $this->memo[$expression] = [$expression];
         } else {
-            return $res;
+            $this->memo[$expression] = $res;
         }
+        return $this->memo[$expression];
     }
 }
 $s = "2-1-1";
