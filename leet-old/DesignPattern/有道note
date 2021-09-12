@@ -1,0 +1,483 @@
+参考视频资料：
+https://www.bilibili.com/video/av64842637?p=4
+
+设计模式六大原则：
+向扩展开放，向修改关闭
+用户最少知道原则
+应该面向接口开发，而不是具体事物
+
+1-5 简单工厂、抽象工厂、面向接口开发
+通过数据库的例子进行介绍。
+在做成一种通用包（composer包或jar包）的时候，往往要考虑易用性和扩展性，下面一起设计一个通用的数据库操做包。
+
+第一阶段：普通，无设计模式概念
+<?php
+
+// server 端
+class DBMysql {
+    public function conn ()
+    {
+        echo 'mysql conn';
+    }
+}
+
+class DBSqlLite {
+    public function connect()
+    {
+        echo 'sqllite conn';
+    }
+}
+
+// client 端使用: 很不友好，且规则可能存在不统一，没有统一规范
+$dbMysql = new DBMysql();
+$dbMysql ->conn();
+$dbSqlLite = new DBSqlLite ();
+$dbSqlLite ->connect();
+
+
+
+第二阶段：制定接口规范，进行约束
+<?php
+
+// server 端
+interface DB {
+    function conn (); //接口中可以不写大括号
+}
+
+class DBMysql implements DB{
+    public function conn ()
+    {
+        echo 'mysql conn';
+    }
+}
+
+class DBSqlLite implements DB{
+    public function conn ()
+    {
+        echo 'sqllite conn';
+    }
+}
+
+// client 端使用: 定义接口规范，知道如何调用方法，但是仍然需要new一个具体类
+$dbMysql = new DBMysql();
+$dbMysql ->conn();
+$dbSqlLite = new DBSqlLite ();
+$dbSqlLite ->conn();
+
+
+第三阶段：使用简单工厂方法
+<?php
+
+// server 端
+interface DB {
+    function conn (); //接口中可以不写大括号
+}
+
+class DBMysql implements DB{
+    public function conn ()
+    {
+        echo 'mysql conn';
+    }
+}
+
+class DBSqlLite implements DB{
+    public function conn ()
+    {
+        echo 'sqllite conn';
+    }
+}
+
+class Factory {
+    public static function createDB ($type)
+    {
+        switch ($type) {
+            case 'mysql' :
+                return new DBMysql();
+            case 'sqllite' :
+                return new DBSqlLite ();
+        }
+    }
+}
+
+// client 端使用: 可以不用具体new一个类，但是不易扩展。
+//（加多一个oracle类型数据库，需要修改Factory类，不符合设计模式的开闭原则--对扩展开放，对修改关闭）
+// （在java中若修改了一个类，则需要重新build，如果牵涉到其他类，则build耗时长）
+$mysql = Factory::createDB('mysql');
+$mysql->conn();
+$sqllite = Factory::createDB('sqllite');
+sqllite->conn();
+
+
+第四阶段：使用抽象工厂方法
+<?php
+
+// server 端
+interface DB {
+    function conn (); //接口中可以不写大括号
+}
+
+class DBMysql implements DB{
+    public function conn ()
+    {
+        echo 'mysql conn';
+    }
+}
+
+class DBSqlLite implements DB{
+    public function conn ()
+    {
+        echo 'sqllite conn';
+    }
+}
+
+interface Factory {
+    function createDB();
+}
+class FactoryMysql implements Factory
+{
+    public static  function createDB() -- 视频讲述有误，继承的方法不能修饰为静态方法
+    {
+        return new DBMysql();
+    }
+}
+class FactorySqlLite implements Factory
+{
+    public static function createDB()
+    {
+        return new DBSqlLite();
+    }
+}
+
+// client 端使用：新增一个oracle类型的db,直接新增扩展就好，不用进行修改，符合原则
+$mysql = FactoryMysql::createDB();
+$mysql->conn();
+$sqlLite = FactorySqlLite::createDB();
+$sqlLite->conn();
+
+
+6 单例模式
+针对数据库连接实例的情况
+class singleton {
+    private static $instance;
+    private function __clone(){}
+
+    private function __construct(){}
+
+    public static function getInstance ()
+    {
+         if (self::$instance == '') {
+             return new self();
+         }
+         return self::$instance;
+    }
+}
+
+$s1 = new singleton();
+$s2 = new singleton();
+if ($s1 === $s2) {
+    echo 'object same';
+} else {
+    echo 'object different';
+}
+
+
+
+观察者模式
+用户频繁登录，通知预先注册到本类的观察者们进行相应的事件处理
+<?php
+// 主体类需要实现SPLSubject接口
+class User implements SPLSubject{
+    public $logNum;
+    public $hobby;
+    public $observers;
+
+    public function __construct($hobby) {
+        $this->logNum = rand(1, 10);
+        $this->hobby = $hobby;
+        $this->observers = new SPLObjectStorage(); // 存储观察者类的实例化
+    }
+
+    public function login ()
+    {
+        // session 操做。。。
+        $this->notify();
+    }
+
+    public function attach (SPLObserver $observer) {
+        $this->observers->attach($observer); //SPLObjectStorage存储注册对象
+    }
+
+    public function detach (SPLObserver $observer) {
+        $this->observers->detach($observer);//SPLObjectStorage删除注册对象
+    }
+
+    // 当本对象发生变化时，调用该方法，就会把本对象推给已注册的观察类
+    public function notify () {
+        $this->observers->rewind();
+        while($this->observers->valid()) {
+            $observer = $this->observers->current();
+            $observer->update($this);
+            $this->observers->next();
+        }
+    }
+}
+
+// 观察者1，需要实现SPLObserver
+class Security implements SPLObserver {
+    public function update (SPLSubject $subject) {
+        if ($subject->logNum > 5) {
+            echo '您已经登录' . $subject->logNum . '次，危险';
+        } else {
+            echo '您已经登录' . $subject->logNum . '次，安全';
+        }
+    }
+}
+// 观察者2
+class AD implements SPLObserver {
+    public function update (SPLSubject $subject) {
+        if ($subject->hobby == 'sports') {
+            echo "sports ad \n";
+        } else {
+            echo "others ad \n";
+        }
+    }
+}
+
+//实施观察
+$user = new User('sports');
+$user->attach(new AD()); //注册观察者，那么user类有变化时，将会推送变化到ad类
+$user->attach(new Security ());
+$user->login();
+
+
+
+责任链模式
+在一个论坛网站，针对不同的网友留言，安排不同的人进行相应的负责处理。
+<?php
+
+// 版主
+class boarder {
+    public  $power = 1;
+    public $top = 'admin';
+    public function process ($level) {
+        if ($this->power >= $level) {
+            echo '删帖子';
+        }else {
+            $processer = new $this->top;
+            $processer->process($level);
+        }
+    }
+}
+
+class admin {
+    public $power = 2;
+    public $top = 'police';
+    public function process ($level) {
+        if ($this->power >= $level) {
+            echo '封帐号';
+        } else {
+            $processer = new $this->top;
+            $processer->process($level);
+        }
+    }
+}
+
+class police{
+    public $power = 3;
+    public $top;
+    public function process ($level) {
+        if ($this->power >= $level) {
+            echo '抓人';
+        }
+    }
+}
+
+$level = $_POST['level'] ?? 1;
+$processer = new boarder();
+$processer->process($level);
+
+
+
+策略模式
+根据前端传过来不同的type，进行相应的计算结果值
+<?php
+
+interface Math {
+    function calc ($op1, $op2);
+}
+
+class MathAdd implements Math {
+    public function calc ($op1, $op2)
+    {
+        return $op1+$op2;
+    }
+}
+
+class MathDiv implements Math {
+    public function calc ($op1, $op2)
+    {
+        return $op1-$op2;
+    }
+}
+
+class CMath {
+    private $calc;
+
+    // 策略模式，根据传入不同的type进行计算
+    public function __construct ($type) {
+        $calc = 'Math' . $type;
+        $this->calc = new $calc();
+    }
+
+    public functin calc ($op1, $op2) {
+        return $this->calc->calc($op1, $op2);
+    }
+}
+
+$calc = new CMath('Add');
+$res = $calc->calc($_POST['op1], $_POST['op2]});
+echo $res;
+
+
+
+装饰器模式
+一篇文章，需要小编进行语句摘要，seo人员加优化语句
+<?php
+
+class BaseArt {
+    protected $content = '正文';
+    public function decorate () {
+        return $this->content;
+    }
+}
+
+class BianArt extends BaseArt{
+    public $art;
+    public function __construct (BaseArt $art)
+    {
+        $this->art = $art;
+        $this->decorate();
+    }
+
+    public function decorate ()
+    {
+        return $this->content = $this->art->decorate() . '+小编摘要+';
+    }
+}
+class SEOArt extends BaseArt{
+    public $art;
+    public function __construct (BaseArt $art)
+    {
+        $this->art = $art;
+        $this->decorate();
+    }
+
+    public function decorate ()
+    {
+        return $this->content = $this->art->decorate() . '+SEO加语句+';
+    }
+}
+
+$x = new SEOArt(new BianArt(new BaseArt()));
+echo $x->decorate();
+// 结果：正文+小编摘要++SEO加语句+
+
+
+适配器模式
+例子：php序列化的字符串，无法被其他语言进行反序列化，需要增加适配器类（避免更改旧代码，又完成了新语言的适配需求）。
+<?php
+
+class TianQi {
+    public static function show ()
+    {
+        $today = array('tep' => 23, 'wind' => 5, 'sun' => '猛烈');
+        return serialize($today);
+    }
+}
+
+// ==== 客户端调用
+var_dump(unserialize(TianQi::show())) ; //a:3:{s:3:"tep";i:23;s:4:"wind";i:5;s:3:"sun";s:6:"猛烈";}
+
+// 新需求，java端也需要该接口
+class AdapterTianQi extends TianQi {
+     public static function show ()
+    {
+        $today = parent::show();
+        $today = unserialize($today);
+        return json_encode($today); // 重新序列化后，改为使用json格式传输
+    }
+}
+var_dump(json_decode(AdapterTianQi::show(), true));
+
+
+
+
+桥接模式
+把类之间的 M*N 关系，变成 M+N
+
+<?php
+
+abstract class info {
+    protected $send = null;
+
+    abstract public function msg ($content);
+
+    public function __construct ($send)
+    {
+        $this->send = $send;
+    }
+    public function send ($to, $content)
+    {
+        $content = $this->msg($content);
+        $this->send->send($to, $content);
+    }
+}
+
+class email {
+    public function send ($to, $content)
+    {
+        echo '站内给' . $to . '，内容：' . $content;
+    }
+}
+class sms {
+    public function send ($to, $content)
+    {
+        echo '站内给' . $to . '，内容：' . $content;
+    }
+}
+
+class Comm extends info {
+    public function msg ($content)
+    {
+        return  '普通。' . $content;
+    }
+}
+class Warn extends info {
+    public function msg ($content)
+    {
+        return  '警告。' . $content;
+    }
+}
+
+// 运行
+$info = new Warn(new email());
+$info->send('ns', 'wan');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
