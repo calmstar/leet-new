@@ -1,4 +1,5 @@
 <?php
+require_once 'tools.php';
 /**
  * Definition for a binary tree node.
  * class TreeNode {
@@ -44,18 +45,32 @@ class Solution {
     // -------- 前置知识 -------
     // 迭代法打印树。思路：递归法用的是系统栈，转变成显示的数据结构栈（可选栈或队列）。
     // 用了显示的数据结构，就可以转变成迭代法。
-    function iterationTree ($root)
+    // 参考：/Users/starc/code/leet-new/leet-old/DataStructure/Tree.php ； graph-dfs bfs
+    // 这里是用栈实现dfs的前序遍历
+    function iterationTreePre ($root)
     {
-        if (empty($root)) return;
+        if ($root === null) return;
         $stack = [];
-        array_push($stack, $root->val);
+        array_push($stack, $root);
         while (!empty($stack)) {
             $tmp = array_pop($stack);
-            echo $tmp->val;
-
+            echo $tmp->val . ' ';
             // 放入新的元素
-            array_push($stack, $tmp->left);
-            array_push($stack, $tmp->right);
+            $tmp->right !== null && array_push($stack, $tmp->right); // 这里是前序遍历。 注意这里是要 right前left后，跟递归的left前不一样
+            $tmp->left !== null && array_push($stack, $tmp->left);
+        }
+    }
+    function iterationTreeBFS ($root)
+    {
+        if ($root === null) return;
+        $queue = [];
+        array_push($queue, $root);
+        while (!empty($queue)) {
+            $tmp = array_pop($queue);
+            echo $tmp->val . ' ';
+            // 放入新的元素
+            $tmp->left !== null && array_unshift($queue, $tmp->left); // 这里bfs，先left后right；跟上面前序遍历的 先right后left 不一样。
+            $tmp->right !== null && array_unshift($queue, $tmp->right);
         }
     }
     function inOrderTree ($root)
@@ -93,3 +108,17 @@ class Solution {
     }
 
 }
+
+/**
+ * [1,3,2,4,5]结果应该是：
+ * bfs：
+ *        1 3 2 4 5
+ * dfs：
+ *      前（根左右）：1 3 4 5 2
+ *      中（左根右）：4 3 5 1 2
+ *      后（左右根）：4 5 3 2 1
+ */
+$root = buildTree([1,3,2,4,5]);
+(new Solution())->iterationTreePre($root);
+echo PHP_EOL;
+(new Solution())->iterationTreeBFS($root);

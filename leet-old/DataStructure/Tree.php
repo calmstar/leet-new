@@ -163,7 +163,7 @@ function preOrderStack ($root)
         $node = array_pop($arr);
         echo $node->val;
         $node->right && array_push($arr, $node->right);
-        $node->left && array_push($arr, $node->left); // 先进后出，现在为中序遍历
+        $node->left && array_push($arr, $node->left); // 先进后出，现在为前序遍历
     }
 }
 
