@@ -36,13 +36,29 @@ class Solution {
         $this->inOrder($root->right);
     }
 
-    // ------------- 迭代算法 ------------
+    // ------------- 迭代算法 实现中序遍历 ------------
     function inorderTraversalV2($root)
     {
-
+        if ($root === null) return [];
+        $res = [];
+        $stack = [];
+        while (!empty($stack) || $root !== null) {
+            if ($root !== null) {
+                //不断往左子树方向走，每走一次就将当前节点保存到栈中
+                //这是模拟递归的调用
+                array_push($stack, $root);
+                $root = $root->left;
+            } else {
+                $tmp = array_pop($stack);
+                $res[] = $tmp->val;
+                $root = $tmp->right;
+            }
+        }
+        return $res;
     }
 
-    // -------- 前置知识 -------
+    // ------------------------------- 前置知识 -----------------------------
+
     // 迭代法打印树。思路：递归法用的是系统栈，转变成显示的数据结构栈（可选栈或队列）。
     // 用了显示的数据结构，就可以转变成迭代法。
     // 参考：/Users/starc/code/leet-new/leet-old/DataStructure/Tree.php ； graph-dfs bfs
