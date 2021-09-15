@@ -15,12 +15,49 @@
 class Solution {
 
     /**
+     * 填充每个节点的下一个右侧节点指针
+     *
+     * 迭代法: 参考程序员carl
+     * https://mp.weixin.qq.com/s/4-bDKi7SdwfBGRm9FYduiA
+     *
+     * @param $root
+     * @return mixed
+     */
+    function connectV3 ($root)
+    {
+        $res = [];
+        if ($root === null) return $res;
+        $queue = [];
+        array_push($queue, $root);
+        while (!empty($queue)) {
+            $num = count($queue);
+            $pre = null;
+            for ($i = 0; $i < $num; $i++) {
+                $tmp = array_shift($queue);
+                if ($i == 0) {
+                    $pre = $tmp;
+                } else {
+                    $pre->next = $tmp;
+                    $pre = $pre->next;
+                }
+                $tmp->left && array_push($queue, $tmp->left);
+                $tmp->right && array_push($queue, $tmp->right);
+            }
+        }
+        return $root;
+    }
+
+    // -------- 分割线 -----------
+
+    /**
+     * 递归法：参考 labuladong
+     *
      * 连接节点, 注意跨越一级父节点的连接
      *
      * @param Node $root
      * @return Node
      */
-    public function connect($root) {
+    public function connect ($root) {
         if ($root === null) return null;
         $this->connectTwoNodes($root->left, $root->right);
         return $root;
