@@ -81,7 +81,7 @@ class Solution {
     {
         if ($root === null) return;
         $queue = [];
-        array_push($queue, $root);
+        array_unshift($queue, $root);
         while (!empty($queue)) {
             $tmp = array_pop($queue);
             echo $tmp->val . ' ';
@@ -90,12 +90,12 @@ class Solution {
             $tmp->right !== null && array_unshift($queue, $tmp->right);
         }
     }
-    function inOrderTree ($root)
+    function preOrderTree ($root)
     {
         if ($root === null) return;
         echo $root->val; // 变换顺序，前中后序遍历；其实就是DFS，用的是系统栈（BFS是用队列）
-        $this->inOrder($root->left);
-        $this->inOrder($root->right);
+        $this->preOrderTree($root->left);
+        $this->preOrderTree($root->right);
     }
     // （数组和链表都可以用迭代递归两种方式遍历）
     function iterationArray ($arr)

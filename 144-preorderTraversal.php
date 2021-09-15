@@ -34,4 +34,24 @@ class Solution {
         $this->preorder($root->left);
         $this->preorder($root->right);
     }
+
+    // -------- 迭代法：栈 ----------
+
+    // https://mp.weixin.qq.com/s/OH7aCVJ5-Gi32PkNCoZk4A
+    function preorderTraversalV2 ($root)
+    {
+        $res = [];
+        if ($root === null) return $res;
+        $stack = [];
+        array_push($stack, $root);
+        while (!empty($stack)) {
+            $tmp = array_pop($stack);
+            $res[] = $tmp->val;
+
+            $tmp->right !== null && array_push($stack, $tmp->right); // 先right，后left
+            $tmp->left !== null && array_push($stack, $tmp->left);
+        }
+        return $res;
+    }
+
 }
