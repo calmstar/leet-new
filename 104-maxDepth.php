@@ -14,8 +14,31 @@
  */
 class Solution {
 
-    // 无论是 前序遍历 还是用 后序遍历，求深度只需要一趟扫描就行了，可选择"递"或"归"任意一趟
+    // bfs
+    function maxDepthV3 ($root)
+    {
+        $deep = 0;
+        if ($root === null) return $deep;
+        $queue = [];
+        array_push($queue, $root);
+        while (!empty($queue)) {
+            $deep++;
+            $num = count($queue);
+            while ($num > 0) {
+                $tmp = array_shift($queue);
 
+                $tmp->left && array_push($queue, $tmp->left);
+                $tmp->right && array_push($queue, $tmp->right);
+                $num--;
+            }
+        }
+        return $deep;
+    }
+
+    //  ---------- 分割线 -----------
+
+    // dfs
+    // 无论是 前序遍历 还是用 后序遍历，求深度只需要一趟扫描就行了，可选择"递"或"归"任意一趟
     private $max = 0;
     /**
      * @param TreeNode $root
@@ -28,7 +51,6 @@ class Solution {
         $this->getMax($root, 1);
         return $this->max;
     }
-
     function getMax ($root, $deep)
     {
         if ($root === null) return;
@@ -36,6 +58,8 @@ class Solution {
         $this->getMax($root->left, $deep+1);
         $this->getMax($root->right, $deep+1);
     }
+
+    // ---------- 分割线 -----------
 
     /**
      * 后序遍历，求高度
