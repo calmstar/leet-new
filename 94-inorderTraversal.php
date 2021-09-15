@@ -48,11 +48,12 @@ class Solution {
                 //不断往左子树方向走，每走一次就将当前节点保存到栈中
                 //这是模拟递归的调用
                 array_push($stack, $root);
-                $root = $root->left;
+                $root = $root->left; // 往左边走
             } else {
+                // 为空了，取回上一个元素
                 $tmp = array_pop($stack);
                 $res[] = $tmp->val;
-                $root = $tmp->right;
+                $root = $tmp->right; // 往右边走
             }
         }
         return $res;
