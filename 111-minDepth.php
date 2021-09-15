@@ -32,6 +32,8 @@ class Solution {
         }
     }
 
+    // ------------------ 分割线 --------------------
+
     // 深度遍历 -- 前序遍历 -- 计算深度，在"递"的过程进行计算判断保存值，"归"过程放
     private $res = null;
     function minDepthV2 ($root)
@@ -54,11 +56,15 @@ class Solution {
         $this->getMin($root->right, $deep+1);
     }
 
+    // ------------------ 分割线 --------------------
+
     // 通过栈进行解决，-- 深度优先遍历 -- 搞不了
     function minDepthDFS ($root)
     {
 
     }
+
+    // ------------------ 分割线 --------------------
 
     // 通过队列进行解决 -- 广度优先遍历
     function minDepthBFS ($root)
