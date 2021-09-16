@@ -13,7 +13,6 @@
 
 class Solution {
 
-    private $res = [];
     /**
      * N 叉树的前序遍历: 根左右 (迭代法和递归法都可参考二叉树的前序遍历)
      * https://mp.weixin.qq.com/s/JWmTeC7aKbBfGx4TY6uwuQ
@@ -27,6 +26,7 @@ class Solution {
         $this->preorderRecursive($root);
         return $this->res;
     }
+    private $res = [];
     function preorderRecursive ($root)
     {
         if ($root === null) return;
@@ -37,6 +37,25 @@ class Solution {
     }
 
     // -------------- 分割线 ---------------
+    // 递归法：res数组采集元素放在循环体内，注意会缺失根节点元素
+    function preorderV1($root)
+    {
+        $this->resV1[] = $root->val; // 将跟节点的值先放在结果数组中
+        $this->preorderRecursiveV1($root);
+        return $this->resV1;
+    }
+    private $resV1 = [];
+    function preorderRecursiveV1 ($root)
+    {
+        if ($root === null) return;
+        foreach ($root->children as $v) {
+            $this->resV1[] = $v->val; // 将除根节点外的其他节点放在res数组中
+            $this->preorderRecursiveV1($v);
+        }
+    }
+
+    // -------------- 分割线 ---------------
+
     // 迭代法 -- 类似二叉树的前序遍历迭代法
     function preorderV2 ($root)
     {
