@@ -24,17 +24,22 @@ class Solution {
     function postorder($root)
     {
         $this->postorderRecursive($root);
-        return $this->res;
+        return $this->reverse($this->res); //  根右左，然后反转变成 左右根
     }
     private $res = [];
     function postorderRecursive($root)
     {
         if ($root === null) return;
         $this->res[] = $root->val;
-        foreach ($root->children as $v) {
-            $this->postorderRecursive($v);
+
+        // 也需要借助 迭代法 思路 (在 589-preorder 结果顺序 根左右 的基础上，改成 根右左，然后反转变成 左右根)
+        // 此处改为从右往左遍历
+        $maxIndex = count($root->children) - 1;
+        for ($i = $maxIndex; $i >= 0; $i--) {
+            $this->postorderRecursive($root->children[$i]);
         }
     }
+
 
     // --------- 分割线 ---------
 
