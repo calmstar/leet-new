@@ -54,7 +54,7 @@ class Solution {
     // ------------- 分割线 -------------
 
     // 迭代法 --- 并非严格的dfs和bfs，只是借助栈或队列来进行比较
-    // 核心是 两两匹配
+    // 核心是 两两匹配，以下使用队列，使用栈也可以，只要原封不动的把方法改了就行
     function isSymmetricV2 ($root)
     {
         if ($root === null) return true;
@@ -63,8 +63,8 @@ class Solution {
         array_push($queue, $root->left);
         array_push($queue, $root->right);
         while (!empty($queue)) {
-            $left = array_pop($queue); // 上面先push left
-            $right = array_pop($queue);
+            $left = array_shift($queue); // 上面先push left，所以先取到left
+            $right = array_shift($queue); // 换成pop也可以，两两匹配就行
             // 相等，继续进行比较
             if ($left === null && $right === null) {
                 continue;
