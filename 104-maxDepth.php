@@ -41,6 +41,7 @@ class Solution {
     // 无论是 前序遍历 还是用 后序遍历，求深度只需要一趟扫描就行了，可选择"递"或"归"任意一趟
     private $max = 0;
     /**
+     * 前序遍历，求深度
      * @param TreeNode $root
      * @return Integer
      */
