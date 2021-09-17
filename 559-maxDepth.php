@@ -13,6 +13,8 @@
 
 class Solution {
     /**
+     * 类似 104题 二叉树的最大深度
+     *
      * n叉树的最大深度
      * 层序遍历 -- bfs
      *
@@ -37,6 +39,19 @@ class Solution {
             }
         }
         return $depth;
+    }
+
+    // ------ 分割线 --------
+
+    // 后序遍历, 结合n叉树的递归遍历思考（589，590）
+    function maxDepthV2 ($root)
+    {
+        $depth = 0;
+        if ($root === null) return $depth;
+        foreach ($root->children as $v) {
+            $depth = max($this->maxDepthV2($v), $depth);
+        }
+        return $depth + 1;
     }
 
 }
