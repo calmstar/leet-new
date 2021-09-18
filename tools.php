@@ -43,19 +43,20 @@ function buildTree ($arr)
 
     $root = new TreeNode($arr[0]);
     $newNode = [$root];
-    $curr = $root;
-    $change = 0;
-    for ($i = 1; $i < count($arr); $i++) {  // [3,1,4,null,2]
+    $curr = $root; // 当前处理元素的根节点
+    $change = 0; // 控制是否弹出父节点来处理
+    for ($i = 1; $i < count($arr); $i++) {  // [3,1,4,null,2] [1,null,2,null,3];
         if ($change % 2 == 0 ) {
             $curr = array_shift($newNode);
         }
+        if ($curr === null) continue;
         $change++;
         if ($i % 2 == 1) {
             $node = buildChild($curr, $arr[$i], 'left');
         } else {
             $node = buildChild($curr, $arr[$i], 'right');
         }
-        array_push($newNode, $node);
+        array_push($newNode, $node); // 放入后序待处理的父节点
     }
     return $root;
 }
