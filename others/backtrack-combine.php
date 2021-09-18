@@ -3,7 +3,8 @@
 
 /**
  * https://mp.weixin.qq.com/s/qT6WgR6Qwn7ayZkI3AineA
- * 回溯算法 --- 穷举组合
+ * 回溯算法 --- 穷举
+ * 组合问题
  * 输入两个数字 n, k，算法输出 [1..n] 中 k 个数字的所有组合
  *
  * 比如输入 n = 4, k = 2，输出如下结果，顺序无所谓，但是不能包含重复（按照组合的定义，[1,2] 和 [2,1] 也算重复）：
@@ -34,7 +35,10 @@ class Solution {
 
     function backtracking ($n, $k, $start, $tracking)
     {
-        if (count($tracking) == $k) $this->res[] = $tracking;
+        if (count($tracking) == $k) {
+            $this->res[] = $tracking;
+            return;
+        }
 
         for ($i = $start; $i <= $n; $i++) {
             array_push($tracking, $i);
@@ -90,6 +94,9 @@ print_r($res);
  *             [1,3,2] [2,3,1] [2,1,3] [3,1,2] [3,2,1] --5 注：加上上面1个，正好 5+1 = 6 = A3-3
 *          ]
  *
+ *      这里的16个，其实就是全排列树的所有元素：https://mp.weixin.qq.com/s/qT6WgR6Qwn7ayZkI3AineA
+ *      16个里面根据不同的题意，筛选得出不同的结果（如组合，子集问题等）
+ *
  */
 
 /**
@@ -101,6 +108,8 @@ print_r($res);
  *      123
  *  共 8 个子序列。 8 = 2的3次方 = 8
  * 子序列个数计算公式：2的n次方
+ * 或
+ * C3-1 + C3-2 + C3-3 = (3) + (3*2/2*1) + (3*2*1/3*2*1) ） = 3+3+1 = 7 + 1(空子集) = 8
  *
  * 子串：
  *      '' (空字符)
@@ -109,7 +118,7 @@ print_r($res);
  *      123
  *      共 7 个子串。7 = 3(3+1)/2+1 = 7
  * 子串个数计算公式：n(n+1)/2 + 1
- * 推导思路：https://blog.csdn.net/dpj514/article/details/79048526
+ * 推导思路-切割法：https://blog.csdn.net/dpj514/article/details/79048526
  *
  */
 
