@@ -16,8 +16,9 @@ function backTracking ($n, $k, &$res, $temp, $begin)
         $res[] = $temp;
         return;
     }
-
-    for ($i = $begin; $i <= $n; $i++) {
+    // 剪枝
+    $maxIndex = $n - ($k - count($temp)) + 1;
+    for ($i = $begin; $i <= $maxIndex; $i++) {
         $temp[] = $i;
         backTracking ($n, $k, $res, $temp, $i+1);
         array_pop($temp);
