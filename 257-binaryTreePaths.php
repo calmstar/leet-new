@@ -28,6 +28,7 @@ class Solution {
      */
     function binaryTreePaths($root)
     {
+        if ($root == null) return [];
         $this->backtracking($root, []);
         return $this->res;
     }
@@ -64,5 +65,24 @@ class Solution {
             $str .= '->' . $path[$i];
         }
         return $str;
+    }
+
+    // ---------- v2 也不需要array_pop -----------
+    function backtrackingV2 ($root, $path)
+    {
+        // 前序遍历，根左右
+        array_push($path, $root->val);
+
+        if (!$root->left && !$root->right) {
+            $this->res[] = $this->translatePath($path);
+            return;
+        }
+
+        if ($root->left !== null) {
+            $this->backtrackingV2($root->left, $path);
+        }
+        if ($root->right !== null) {
+            $this->backtrackingV2($root->right, $path);
+        }
     }
 }
