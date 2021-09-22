@@ -8,9 +8,23 @@ class Solution {
      * @param Integer $targetSum
      * @return Integer[][]
      */
-    function pathSum($root, $targetSum)
+    function pathSum ($root, $targetSum)
     {
-
+        if ($root === null) return [];
+        $this->traversal($root, $targetSum, [], 0);
+        return $this->res;
+    }
+    private $res = [];
+    function traversal ($root, $targetSum, $path, $sum)
+    {
+        $sum += $root->val; // 与112不同，这里是局部变量
+        $path[] = $root->val;
+        if ($root->left === null && $root->right === null && $sum == $targetSum) {
+            $this->res[] = $path;
+        }
+        // 递归函数不需要返回值，因为要遍历整棵树
+        $root->left && $this->traversal($root->left, $targetSum, $path, $sum);
+        $root->right && $this->traversal($root->right, $targetSum, $path, $sum);
     }
 
     // -------------- 分割线 -------------
