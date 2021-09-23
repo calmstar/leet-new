@@ -16,6 +16,7 @@
 class Solution {
 
     /**
+     * 从前序与中序遍历序列构造二叉树
      * https://mp.weixin.qq.com/s/OlpaDhPDTJlQ5MJ8tsARlA
      * 两个树的都没有重复元素
      * @param Integer[] $preorder
