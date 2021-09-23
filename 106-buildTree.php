@@ -3,6 +3,8 @@
 class Solution {
 
     /**
+     * 105 106 都是构造树，一般采用前序遍历
+     *
      * 从中序与后序遍历序列构造二叉树
      * @param Integer[] $inorder
      * @param Integer[] $postorder
