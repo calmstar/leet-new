@@ -50,6 +50,7 @@ class Solution {
         }
         return $res;
     }
+    // 利用数组有序特性来做
     function getModeV2 ($arr)
     {
         $cou = count($arr);
@@ -66,15 +67,62 @@ class Solution {
             }
             // 判断
             if ($tmpCount == $maxCount) {
-                $res[] = $arr[$i];
+                $res[] = $arr[$i]; // 放进新的
             }
             if ($tmpCount > $maxCount) {
-                $res = [];
-                $res[] = $arr[$i];
+                $res = []; // 将结果清空
+                $res[] = $arr[$i]; // 放进新的
                 $maxCount = $tmpCount;
             }
         }
         return $res;
     }
+
+    // ------------- 直接在二叉搜索树中遍历得出结果  ---------------
+
+    function findModeV2($root)
+    {
+        if ($root == null) return [];
+        if (!$root->left && !$root->right) return [$root->val];
+        $this->solve($root);
+        return $this->res;
+    }
+    private $res = [];
+    private $count = 0;
+    private $maxCount = 0;
+    private $pre = null;
+    function solve ($root)
+    {
+        if ($root == null) return;
+
+        // 左
+        $this->solve($root->left);
+
+        // 根
+        if ($this->pre == null) {
+            // 第一个节点
+            $this->count = 1;
+        } elseif ($this->pre->val == $root->val) {
+            // 与上一个节点相同
+            $this->count++;
+        } else {
+            // 与上一个节点不相同
+            $this->count = 1;
+        }
+        $this->pre = $root;
+        // 数量大小判断
+        if ($this->count == $this->maxCount) {
+            $this->res[] = $root->val;
+        }
+        if ($this->count > $this->maxCount) {
+            $this->res = [];
+            $this->res[] = $root->val;
+            $this->maxCount = $this->count;
+        }
+
+        // 右
+        $this->solve($root->right);
+    }
+
 
 }
