@@ -53,4 +53,25 @@ class Solution {
         return $root;
     }
 
+    // --------------------- 分割线 --------------------
+
+    // 不需要像普通的树那样，借助栈或队列进行迭代，此处二叉搜索树本身有序就是一个方向了
+    function lowestCommonAncestorV3 ($root, $p, $q)
+    {
+        if ($root === null) return null;
+
+        while ($root) {
+            if ($root->val > $p->val && $root->val > $q->val) {
+                // 目前在左子树
+                $root = $root->left;
+            } elseif ($root->val < $p->val && $root->val < $q->val) {
+                // 目前在右子树
+                $root = $root->right;
+            } else {
+                // 在 p q的区间内
+                return $root;
+            }
+        }
+        return null;
+    }
 }
