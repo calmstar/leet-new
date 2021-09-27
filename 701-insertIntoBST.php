@@ -3,6 +3,8 @@
 class Solution {
 
     /**
+     * https://mp.weixin.qq.com/s/hmx6JMj7yLrkhcpogBf5hg
+     *
      * 二叉搜索树的插入
      * @param TreeNode $root
      * @param Integer $val
@@ -10,6 +12,7 @@ class Solution {
      */
     function insertIntoBST($root, $val)
     {
+        // 递归出口，只为了防止一开始传入空树的情况
         if ($root === null) return new TreeNode($val);
 
         // 单层递归逻辑
@@ -17,20 +20,39 @@ class Solution {
             if ($root->left === null) {
                 $root->left = new TreeNode($val);
             } else {
-                $root->left = $this->insertIntoBST($root->left, $val);
-//                $this->insertIntoBST($root->left, $val); // 因为是地址引用，所以接收不接收都可以
+                // 因为实际创建节点 是在当层的判断上创建的，而不是在下层的递归出口处，所以可以不用接收返回参数（地址引用）
+//                $root->left = $this->insertIntoBST($root->left, $val);
+                $this->insertIntoBST($root->left, $val);
             }
         }
         if ($val > $root->val) {
             if ($root->right === null) {
                 $root->right = new TreeNode($val);
             } else {
-                $root->right = $this->insertIntoBST($root->right, $val);
-//                $this->insertIntoBST($root->right, $val);
+//                $root->right = $this->insertIntoBST($root->right, $val);
+                $this->insertIntoBST($root->right, $val);
             }
         }
         return $root;
     }
+
+    // 整理上面的思路：依据处理的不同，代码逻辑可以接收或不接收参数
+    function insertIntoBSTV1($root, $val)
+    {
+        // 递归出口，将节点创建放在此处
+        if ($root === null) return new TreeNode($val);
+
+        // 单层递归逻辑
+        if ($val < $root->val) {
+            // 因为节点创建放在下一层的递归出口处，所以这里必须接收返回值
+            $root->left = $this->insertIntoBSTV1($root->left, $val);
+        }
+        if ($val > $root->val) {
+            $root->right = $this->insertIntoBSTV1($root->right, $val);
+        }
+        return $root;
+    }
+
 
     // ----------------- 分割线 --------------------
 
