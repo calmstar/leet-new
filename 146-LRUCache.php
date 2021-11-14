@@ -18,6 +18,10 @@ void put(int key, int value) 如果关键字已经存在，则变更其数据�
  * Class LRUCache
  */
 
+/**
+ * 自己写的，O(n)复杂度
+ * Class LRUCache
+ */
 class LRUCache {
 
     public $cache;
@@ -30,7 +34,7 @@ class LRUCache {
     function __construct($capacity) {
         $this->cache = []; // 按关联数组使用（map）：cache[key]=val
         $this->priority = []; // 按队列使用，array_pop得到的是最少使用的key。unset时需要先找到此key对应的索引，O(n)
-        $this->capacity = $capacity;
+        $this->capacity = $capacity; // lru的容量
     }
 
     /**
@@ -117,6 +121,7 @@ lRUCache.get(4);    // 返回 4
 /**
  * https://mp.weixin.qq.com/s/b0YVCccJ8mFP6lI-1NiQOQ
  *
+ * 参考作者写的，O(1)的时间复杂度，数据结构较为复杂
  * Class LRUCacheV2
  */
 class LRUCacheV2 {

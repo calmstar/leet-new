@@ -61,6 +61,8 @@ class Solution {
         return $currNode;
     }
 
+    // ------------- 反转链表 ------------
+
     // 翻转链表的前n个节点
     private $num = 0; // 当前遍历的节点个数
     private $after = null; // n+1个节点，用来根旧的头节点衔接

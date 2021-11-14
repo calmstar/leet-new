@@ -33,12 +33,72 @@ function lengthOfLongestSubstring($s)
     return $maxLength;
 }
 
+// -------------- 分割线 -------------
+
+/**
+ * labuladong的滑动窗口算法
+ * @param $s
+ * @return int|mixed
+ */
+function lengthOfLongestSubstring3($s)
+{
+   $len = strlen($s);
+   if ($len < 2) return $len;
+
+   $left = $right =0;
+   $res = 0;
+   $window = [];
+   while ($right < $len) {
+       $rTmp = $s[$right];
+       $right++;
+       $window[$rTmp]++;
+
+       // 左边收缩
+       while ($window[$rTmp] > 1) {
+           $lTmp = $s[$left];
+           $left++;
+           $window[$lTmp]--;
+       }
+       $res = max($res, $right-$left);
+   }
+   return $res;
+}
+
+// 自己写的滑动窗口，核心： 左右指针滑动的时机 和 hash
+function lengthOfLongestSubstringMy ($s) {
+    $len = strlen($s);
+    if ($len == 1 || $len == 0) return $len;
+
+    // 窗口内的字符出现频率
+    $hash = [];
+    $left = $right = 0;
+    $maxSize = 0;
+
+    // 左边和右边推进的时机
+    while ($right < $len) {
+        $rStr = $s[$right];
+        $hash[$rStr]++;
+
+        // 如果右边刚进来的字符串，使得结果大于1，说明这个新字符导致了重复
+        while ($hash[$rStr] > 1) {
+            // 需要收缩左边的窗口，直到值不大于1
+            $lStr = $s[$left];
+            $hash[$lStr]--;
+            $left++;
+        }
+        // 获取窗口最大值
+        $maxSize = max($maxSize, $right-$left+1);
+        // 扩展右边的窗口
+        $right++;
+    }
+    return $maxSize;
+}
+
+// ------------ 分割线 -----------
 /**
  * 简化法 o n
  * "hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789hijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
- *
- * 上面的case解算有误
- *
+ * 上面的case解算有误  -- 不看
  * @param $s
  */
 function lengthOfLongestSubstring2($s)
@@ -69,31 +129,6 @@ function lengthOfLongestSubstring2($s)
         }
     }
     return implode(' ', array_keys($aa));
-}
-
-
-function lengthOfLongestSubstring3($s)
-{
-   $len = strlen($s);
-   if ($len < 2) return $len;
-
-   $left = $right =0;
-   $res = 0;
-   $window = [];
-   while ($right < $len) {
-       $rTmp = $s[$right];
-       $right++;
-       $window[$rTmp]++;
-
-       // 左边收缩
-       while ($window[$rTmp] > 1) {
-           $lTmp = $s[$left];
-           $left++;
-           $window[$lTmp]--;
-       }
-       $res = max($res, $right-$left);
-   }
-   return $res;
 }
 
 $s = ""; // 返回3
