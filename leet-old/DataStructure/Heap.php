@@ -50,7 +50,7 @@ function main ()
     $arr = heapSort($arr);
     var_dump($arr);
 }
-
+// --------------- 分割线 ----------------
 /**
  * 堆排序
  * @param $arr
