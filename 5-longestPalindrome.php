@@ -73,9 +73,9 @@ function isPalindrome ($str)
 //$res = longestPalindrome2($s);
 //var_dump($res);
 
-//- -----------------
+//-------------------
 
-// 中心扩展法
+// 中心扩展法 -- labuladong
 function xx ($str)
 {
     $len = strlen($str);
@@ -83,8 +83,8 @@ function xx ($str)
     // 以每个字母（$str[$i]）为中心向两边扩展，和 $str[$i]   $str[$i+1] 为中心向两边扩展
     $maxStr = '';
     for ($i = 0; $i < $len; $i++) {
-        $res = findPalindrome($i, $i, $str);
-        $res2 = findPalindrome($i, $i+1, $str);
+        $res = findPalindrome($i, $i, $str); // 以当前点为中心进行扩展
+        $res2 = findPalindrome($i, $i+1, $str); // 以当前点和下一点为中心进行扩展
         // 得到最长的回文子串
         $tmp = strlen($res) > strlen($res2) ? $res : $res2;
         $maxStr = strlen($maxStr) > strlen($tmp) ? $maxStr : $tmp;

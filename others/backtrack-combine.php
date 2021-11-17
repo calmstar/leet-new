@@ -124,7 +124,7 @@ print_r($res);
  */
 
 /**
- * 穷举 全排列，全组合，子组合（子集subset），子排列 都可以用回溯法，并且都有代码讲解了：参考上下文件
+ * 穷举 全排列，全组合，子组合（子集subset 子序列），子排列 都可以用回溯法，并且都有代码讲解了：参考上下文件
  *
  * 穷举 子串（substr）（或连续子数组问题）：使用双重for循环进行遍历，然后substr进行获得：参考/Users/starc/code/leet-new/others/interation-substr.php
  *
