@@ -10,10 +10,16 @@
 输入: nums = [-1,0,3,5,9,12], target = 9
 输出: 4
 解释: 9 出现在 nums 中并且下标为 4
+ *
+ * 数组中无重复元素，因为一旦有重复元素，使用二分查找法返回的元素下标可能不是唯一的
  */
 class Solution
 {
-
+    /**
+     * @param array $nums
+     * @param int $target
+     * @return false|float|int|mixed
+     */
    public function search (array $nums, int $target)
    {
        $count = count($nums);
