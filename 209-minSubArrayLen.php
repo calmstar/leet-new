@@ -77,6 +77,51 @@ class Solution {
         return $minCou == $cou+1 ? 0 : $minCou;
     }
 
+    // 双指针法，一个for循环，写的比较奇怪（条件判断方面）
+    function practice ($target, $nums)
+    {
+        $cou = count($nums);
+        if ($cou < 1) return 0;
+        $left = 0;
+        $right = 0;
+        $sum = 0;
+        $minLength = $cou + 1;
+        while ($right <= $cou) {
+            if ($sum >= $target) {
+                $tempLength = $right - $left;
+                $minLength = min($tempLength, $minLength);
+                $sum -= $nums[$left];
+                $left++;
+            } else {
+                $sum += $nums[$right];
+                $right++;
+            }
+        }
+        return $minLength == ($cou + 1) ? 0 : $minLength;
+    }
+
+    // 双指针法，labuladong的方法, 模板通用方法
+    function practiceV2 ($target, $nums)
+    {
+        $cou = count($nums);
+        if ($cou < 1) return 0;
+        $left = 0;
+        $right = 0;
+        $minLength = $cou + 1;
+        $sum = 0;
+        while ($right < $cou) {
+            $sum += $nums[$right];
+            while ($sum >= $target) {
+                // 左边开始一直收缩减少长度，直到不符合条件为止
+                $minLength = min($minLength, $right-$left+1);
+                $sum -= $nums[$left];
+                $left++;
+            }
+            // 这里开始不符合，右边扩张
+            $right++;
+        }
+        return $minLength == $cou+1 ? 0 : $minLength;
+    }
 
 }
 $s = 7;

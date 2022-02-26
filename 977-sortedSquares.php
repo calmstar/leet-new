@@ -46,8 +46,38 @@ class Solution {
         }
         return $res;
     }
+
+    function practice ($nums)
+    {
+        $cou = count($nums);
+        if ($cou == 0) return [];
+        $res = [];
+        $resPoint = $cou - 1;
+        $startPoint = 0;
+        $endPoint = $cou - 1;
+        for ($i = 0; $i <= $resPoint; $i++) {
+            $res[$i] = 0;
+        }
+        while ($startPoint <= $endPoint) {
+            $startRes = $nums[$startPoint] * $nums[$startPoint];
+            $endRes = $nums[$endPoint] * $nums[$endPoint];
+            if ($startRes < $endRes) {
+                $res[$resPoint] = $endRes;
+                $endPoint--;
+            } else {
+                $res[$resPoint] = $startRes;
+                $startPoint++;
+            }
+            $resPoint--;
+        }
+        return $res;
+
+    }
 }
 
 $nums = [-4,-1,0,3,10];
 $res = (new Solution())->sortedSquares($nums);
+//$res = (new Solution())->practice($nums);
 print_r($res);
+
+

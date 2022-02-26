@@ -61,6 +61,23 @@ class Solution {
         return $currNode;
     }
 
+    // 迭代法
+    function practice ($head)
+    {
+        if ($head->next === null || $head === null) return $head;
+
+        $prev = null;
+        $curr = $head;
+        while ($curr !== null) {
+            $temp = $curr->next;
+            $curr->next = $prev;
+
+            $prev = $curr;
+            $curr = $temp;
+        }
+        return $prev;
+    }
+
     // ------------- 反转链表 ------------
 
     // 翻转链表的前n个节点
@@ -113,3 +130,4 @@ class Solution {
 $root = buildListNode([1,2,3]);
 $res = (new Solution())->reverseBetweenMy($root, 3,3);
 print_r($res);
+
