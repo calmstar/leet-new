@@ -61,6 +61,7 @@ class Solution {
         return $currNode;
     }
 
+    // https://programmercarl.com/0206.%E7%BF%BB%E8%BD%AC%E9%93%BE%E8%A1%A8.html#%E9%80%92%E5%BD%92%E6%B3%95
     // 迭代法
     function practice ($head)
     {
@@ -77,8 +78,7 @@ class Solution {
         }
         return $prev;
     }
-
-    // 递归法
+    // 递归法 -- 从后往前翻转
     function practiceV2 ($head)
     {
         if ($head === null || $head->next === null) return $head;
@@ -88,6 +88,22 @@ class Solution {
         $head->next = null;
 
         return $newHead;
+    }
+
+    // 递归法 -- 从前往后翻转
+    function practiceV3 ($head)
+    {
+        if ($head === null || $head->next === null) return $head;
+        return $this->practiceV3Reverse(null, $head);
+    }
+    // 类似迭代算法的交换
+    function practiceV3Reverse ($pre, $curr)
+    {
+        if ($curr === null) return $pre;
+        // 保存下个节点
+        $temp = $curr->next;
+        $curr->next = $pre;
+        $this->practiceV3Reverse($curr, $temp);
     }
 
     // ------------- 反转链表 ------------
