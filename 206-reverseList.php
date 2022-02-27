@@ -78,6 +78,18 @@ class Solution {
         return $prev;
     }
 
+    // 递归法
+    function practiceV2 ($head)
+    {
+        if ($head === null || $head->next === null) return $head;
+
+        $newHead = $this->practiceV2($head->next);
+        $head->next->next = $head;
+        $head->next = null;
+
+        return $newHead;
+    }
+
     // ------------- 反转链表 ------------
 
     // 翻转链表的前n个节点
