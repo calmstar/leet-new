@@ -3,6 +3,7 @@
 class Solution {
 
     /**
+     * js 老毕
      * @param String[][] $grid
      * @return Integer
      */
@@ -52,6 +53,46 @@ class Solution {
         }
         return $grid;
     }
+
+    // ------- labuladong 算法框架 ： https://mp.weixin.qq.com/s/IZQkb-M27dt-AZ1VICThOw -----
+    function numIslandsV2($grid) {
+       if (empty($grid)) return 0;
+       $rowLen = count($grid);
+       $colLen = count($grid[0]);
+       $res = 0;
+       for ($i = 0; $i < $rowLen; $i++) {
+           for ($j = 0; $j < $colLen; $j++) {
+                if ($grid[$i][$j] == '1') {
+                    $res++;
+                }
+                // 让周围的岛屿沉没
+               $this->dfs($rowLen, $colLen, $grid, $i, $j);
+
+           }
+       }
+       return $res;
+
+    }
+    // 向周围扩散，让岛屿沉没
+    function dfs ($rowLen, $colLen, &$grid, $i, $j)
+    {
+        if ($i < 0 || $j < 0 || $i >= $rowLen || $j >= $colLen) {
+            // 超出数组索引
+            return;
+        }
+        if ($grid[$i][$j] == 0) {
+            // 已经是海水，不操作
+            return;
+        }
+        // 岛屿改成海水（淹没岛屿，方便判断）
+        $grid[$i][$j] = 0;
+        // 向四周的岛屿扩散，判断是否沉没
+        $this->dfs($rowLen, $colLen, $grid, $i-1, $j);
+        $this->dfs($rowLen, $colLen, $grid, $i+1, $j);
+        $this->dfs($rowLen, $colLen, $grid, $i, $j-1);
+        $this->dfs($rowLen, $colLen, $grid, $i, $j+1);
+    }
+
 }
 
 /**
