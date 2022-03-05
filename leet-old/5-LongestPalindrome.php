@@ -28,6 +28,36 @@
 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
  */
 
+class Solution {
+
+    /**
+     * @param String $s
+     * @return String
+     */
+    function longestPalindrome($s) {
+        $len = strlen($s);
+        $res = '';
+        for ($i = 0; $i < $len; $i++) {
+            $res1 = $this->getPalindrome($s, $len, $i, $i);
+            $res2 = $this->getPalindrome($s, $len, $i, $i+1);
+            $res = strlen($res1) > strlen($res) ? $res1 : $res;
+            $res = strlen($res2) > strlen($res) ? $res2 : $res;
+        }
+        return $res;
+    }
+
+    function getPalindrome ($s, $len, $left, $right)
+    {
+        while ($s[$left] == $s[$right] && $left >= 0 && $right < $len) {
+            $left--;
+            $right++;
+        }
+        $offset = $left+1;
+        $len = $right - $offset;
+        return substr($s, $offset, $len);
+    }
+}
+
 /****************  动态规划  ****************/
 
 /**
@@ -121,7 +151,7 @@ function longestPalindromeOfficial ($s)
 
 echo " \n----- 我的-暴力法：遍历得到所有的子字符串，看看是不是回文数. 会超时 ----- \n";
 
-class Solution {
+class SolutionMy {
 
     /**
      * @param String $s
@@ -164,8 +194,8 @@ class Solution {
 
 }
 
-//$str = 'babad';
-$str = 'cbbd';
+$str = 'babad';
+//$str = 'cbbd';
 $s = new Solution();
 $res = $s->longestPalindrome($str);
 var_dump($res);
