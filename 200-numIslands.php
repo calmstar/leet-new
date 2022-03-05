@@ -64,10 +64,9 @@ class Solution {
            for ($j = 0; $j < $colLen; $j++) {
                 if ($grid[$i][$j] == '1') {
                     $res++;
+                    // 让周围的岛屿沉没
+                    $this->dfs($rowLen, $colLen, $grid, $i, $j);
                 }
-                // 让周围的岛屿沉没
-               $this->dfs($rowLen, $colLen, $grid, $i, $j);
-
            }
        }
        return $res;
