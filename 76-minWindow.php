@@ -2,6 +2,7 @@
 
 class Solution {
 
+    // labuladong : https://mp.weixin.qq.com/s/ioKXTMZufDECBUwRRp3zaA
     function minWindow($s, $t) {
         $need = []; // 需要凑齐的字符及数量，哈希
         $windowHad = []; // 当前窗口中含有的 凑齐字符及数量，哈希
@@ -61,6 +62,8 @@ class Solution {
         }
         return $len == $sLen+1 ? '' : substr($s, $start, $len);
     }
+
+    // --------------- ---------------
 
     /**
      * v1版本会超时

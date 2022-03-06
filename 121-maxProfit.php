@@ -3,6 +3,7 @@ class Solution {
 
 
     /**
+     * 参考js老毕
      * @param $prices
      * @return int|mixed
      */
