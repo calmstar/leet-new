@@ -1,0 +1,24 @@
+
+树的深度优先遍历（前中后序）和广度优先遍历：
+    leet-new/leet-old/DataStructure/Tree.php
+    岛屿问题：https://mp.weixin.qq.com/s/IZQkb-M27dt-AZ1VICThOw
+    104-maxDepth.php
+    111-minDepth.php
+
+动态规划：
+    一维：
+        leet-old/70-ClimbStairs.php
+        322-coinChange.php
+        198-rob.php
+    二维：
+        64-minPathSum.php
+
+
+回溯法：
+    others/backtrack-combine.php
+    others/NQueue.php
+    /Users/starchen/code/leet-new/others/backtrack-permute.php
+
+排序算法：
+    sort/n2-bubble.php。。。
+

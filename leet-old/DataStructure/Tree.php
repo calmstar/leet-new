@@ -159,7 +159,7 @@ function preOrderStack ($root)
     if ($root == null) return ;
     $arr = [];
     array_push($arr, $root);
-    while ($cou = count($arr)) {
+    while (!empty($arr)) {
         $node = array_pop($arr);
         echo $node->val;
         $node->right && array_push($arr, $node->right);

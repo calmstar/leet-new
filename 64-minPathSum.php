@@ -64,10 +64,10 @@ class Solution {
         // baseCase
         $dp[0][0] = $grid[0][0];
         for  ($i = 1; $i <= $row; $i++) { // 第一列向下移动
-            $dp[$i][0] += $grid[$i][0] + $dp[$i-1][0];
+            $dp[$i][0] = $grid[$i][0] + $dp[$i-1][0];
         }
         for ($j = 1; $j <= $col; $j++) { // 第一行向右移动
-            $dp[0][$j] += $grid[0][$j] + $dp[0][$j-1];
+            $dp[0][$j] = $grid[0][$j] + $dp[0][$j-1];
         }
         // dp可进行状态压缩，压缩成一纬 或 直接使用grid作为dp结果
         // dp[i][j] 定义：从00到ij位置的最小路径和
@@ -101,7 +101,7 @@ class Solution {
         // 初始化第一行
         $dp[0] = $grid[0][0]; // 特殊处理，防止下面的$i-1数组越界
         for ($i = 1; $i <= $col; $i++) {
-            $dp[$i] += $grid[0][$i] + $dp[$i-1];
+            $dp[$i] = $grid[0][$i] + $dp[$i-1];
         }
 
         for ($i = 1; $i <= $row; $i++) { // 从第2行开始，第1行已经初始化
@@ -158,3 +158,67 @@ $grid = [
 
 $res = (new Solution())->dpTableV2($grid);
 var_export($res);
+
+class practice {
+    private $memo = [];
+    public function xx ($grid) {
+        if (empty($grid)) return 0;
+        $row = count($grid);
+        $col = count($grid[0]);
+        return $this->dp($row, $col, $grid);
+    }
+
+    function dp ($row, $col, $grid)
+    {
+        if (!isset($grid[$row][$col])) return PHP_INT_MAX;
+        if ($row == 0 && $col == 0) return $grid[0][0];
+        if (isset($this->memo[$row][$col])) return $this->memo[$row][$col];
+
+        $this->memo[$row][$col] = min($this->dp($row-1, $col, $grid), $this->dp($row, $col-1, $grid))
+            + $grid[$row][$col];
+        return $this->memo[$row][$col];
+    }
+
+    // ---
+    function dpTable ($grid)
+    {
+        if (empty($grid)) return 0;
+        $row = count($grid);
+        $col = count($grid[0]);
+        // baseCase
+        $dp = [];
+        for ($i = 1; $i < $row; $i++) {
+            $dp[$i][0] = $grid[$i][0] + $dp[$i-1][0];
+        }
+        for ($i = 1; $i < $col; $i++) {
+            $dp[0][$i] = $grid[0][$i] + $dp[0][$i-1];
+        }
+
+        for ($i = 1; $i < $row; $i++) {
+            for ($j = 1; $j < $col; $j++) {
+                $dp[$i][$j] = min($dp[$i-1][$j], $dp[$i][$j-1]) + $grid[$i][$j];
+            }
+        }
+        return $dp[$row-1][$col-1];
+    }
+
+
+    function dpTableV2 ($grid)
+    {
+        if (empty($grid)) return 0;
+        $row = count($grid);
+        $col = count($grid[0]);
+        for ($i = 1; $i < $row; $i++) {
+            $grid[$i][0] = $grid[$i][0] + $grid[$i-1][0];
+        }
+        for ($i = 1; $i < $col; $i++) {
+            $grid[0][$i] = $grid[0][$i] + $grid[0][$i-1];
+        }
+        for ($i = 1; $i < $row; $i++) {
+            for ($j = 1; $j < $col; $j++) {
+                $grid[$i][$j] = min($grid[$i-1][$j], $grid[$i][$j-1]) + $grid[$i][$j];
+            }
+        }
+        return $grid[$row-1][$col-1];
+    }
+}
