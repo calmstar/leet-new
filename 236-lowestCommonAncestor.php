@@ -23,13 +23,18 @@ class Solution {
     function lowestCommonAncestor($root, $p, $q) {
         // 递归出口，都是针对当前节点的判断，没有使用左右子节点
         if ($root === null) return null;
+
+        // 前序遍历判断，可以优化效率
         if ($root === $p || $root === $q) return $root;
 
-        // 使用left和right接住，处理后进行return，遍历整棵树
+        // 使用left和right接住，处理后进行return，遍历整棵树《程序员carl》
         // 左操作
         $left = $this->lowestCommonAncestor($root->left, $p, $q);
         // 右操作
         $right = $this->lowestCommonAncestor($root->right, $p, $q);
+
+        // 也可以放在后序遍历判断，效率不高，但是也能ac
+//        if ($root === $p || $root === $q) return $root;
 
         // 单层递归逻辑
         // 根操作
