@@ -2,7 +2,7 @@
 
 class Solution {
     /**
-     * 二叉搜索树的最近公共祖先
+     * 二叉 搜索树 的最近公共祖先
      *
      * 递归法
      * https://mp.weixin.qq.com/s/97dKWMVEyPH94-3LLaukbA
