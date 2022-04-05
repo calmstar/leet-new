@@ -55,7 +55,14 @@ class Solution {
 
     // --------------------- 分割线 --------------------
 
-    // 不需要像普通的树那样，借助栈或队列进行迭代，此处二叉搜索树本身有序就是一个方向了
+    /**
+     *  不需要像普通的树那样，借助栈或队列进行迭代，此处二叉搜索树本身有序就是一个方向了
+     * 搜索一条边就可以
+     * @param $root
+     * @param $p
+     * @param $q
+     * @return mixed|null
+     */
     function lowestCommonAncestorV3 ($root, $p, $q)
     {
         if ($root === null) return null;
