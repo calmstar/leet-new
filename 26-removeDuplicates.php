@@ -24,6 +24,7 @@ function removeDuplicates(&$nums) {
     return count($nums);
 }
 
+// https://mp.weixin.qq.com/s/Z-oYzx9O1pjiym6HtKqGIQ
 // 快慢指针法 -- 思想，所有语言共有
 // 维护一个快慢指针，[0, slow]区间的为不重复元素集合，通过交换元素在原地实现方法
 function removeDuplicatesV2(&$nums)

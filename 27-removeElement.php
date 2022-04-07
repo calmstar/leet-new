@@ -20,7 +20,7 @@ function removeElement(&$nums, $val)
     return count($nums);
 }
 
-// 双指针 -- 快慢指针技巧
+// 双指针 -- 快慢指针技巧: https://mp.weixin.qq.com/s/Z-oYzx9O1pjiym6HtKqGIQ
 function removeElementV2(&$nums, $val)
 {
     if (empty($nums)) return 0;
