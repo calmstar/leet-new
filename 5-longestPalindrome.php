@@ -86,8 +86,8 @@ function xx ($str)
         $res = findPalindrome($i, $i, $str); // 以当前点为中心进行扩展
         $res2 = findPalindrome($i, $i+1, $str); // 以当前点和下一点为中心进行扩展
         // 得到最长的回文子串
-        $tmp = strlen($res) > strlen($res2) ? $res : $res2;
-        $maxStr = strlen($maxStr) > strlen($tmp) ? $maxStr : $tmp;
+        $maxStr = strlen($maxStr) > strlen($res) ? $maxStr : $res;
+        $maxStr = strlen($maxStr) > strlen($res2) ? $maxStr : $res2;
     }
     return $maxStr;
 }
@@ -95,21 +95,11 @@ function xx ($str)
 function findPalindrome ($l, $r, $str)
 {
     $len = strlen($str);
-    $flag = false;
     while ($l <= $r && $l >= 0 && $r < $len && $str[$l] == $str[$r]) {
         $l--;
         $r++;
-        $flag = true;
     }
-    // 还原回去
-    $l = $l+1;
-    $r = $r-1;
-    if ($flag) {
-        return substr($str, $l, $r-$l+1);
-    } else {
-        return '';
-    }
-
+    return substr($str, $l+1, $r-$l-1); // 需要用实际例子进行推算offset和length
 }
 
 $sss = 'babad';
