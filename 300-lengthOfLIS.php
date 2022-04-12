@@ -2,6 +2,7 @@
 class Solution {
 
     /**
+     *  https://labuladong.github.io/algo/3/24/76/
      *
      * 与 /Users/starc/code/leet-new/SwordFinger/42-连续子数组的最大和.php 类似
      * （ /Users/starc/code/leet-new/53-maxSubArray.php 最大连续子数组和 ）
@@ -35,4 +36,34 @@ class Solution {
         return max($dp);
     }
 
+    /**
+     * 最长递增子序列
+     * 动态规划：本质就是数学归纳法
+     *
+     * dp定义： dp[i] 代表 nums 数组在 i 位置的最长递增子序列
+     *
+     * @param $nums
+     * @return int|mixed
+     */
+    function lengthOfLISV2 ($nums)
+    {
+        $cou = count($nums);
+        if ($cou < 1) return $cou;
+        $dp = [];
+        $dp[0] = 1; // nums中只有一个元素时，最长递增值就是1
+
+        for ($i = 1; $i < $cou; $i++) { // 外循环i对应dp的新索引值
+            $dp[$i] = 0; // 默认赋值为0
+            for ($j = 0; $j < $i; $j++) {
+                if ($nums[$i] > $nums[$j]) {
+                    // 依次比较，求得从 0-i-1 位置每个元素小于 nums[i] 的dp值 中的最大值
+                    $dp[$i] = max($dp[$i], $dp[$j]);
+                }
+            }
+            $dp[$i]++; // 加上i位置的元素，自增+1
+        }
+        return max($dp);
+    }
+
 }
+

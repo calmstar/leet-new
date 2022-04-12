@@ -13,6 +13,9 @@ class Solution {
      *  2 函数定义：金额 $amount 下，最少有 coinChange($coins, $amount) 中组装方式
      *  3 选择：硬币的面值
      *  4 baseCase： 金额为0时，需要0个硬币； 金额为负数时，无解
+     *
+     * 三要素（函数定义，baseCase，状态转移方程）
+     * 特征（最优子结构，重叠子问题，状态，选择）
      */
 
     /**
