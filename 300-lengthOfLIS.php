@@ -41,6 +41,7 @@ class Solution {
      * 动态规划：本质就是数学归纳法
      *
      * dp定义： dp[i] 代表 nums 数组在 i 位置的最长递增子序列
+     * 状态转移方程：dp[i] = max(dp[0...i-1]) + 1  [while (nums[i] > nums[j])]
      *
      * @param $nums
      * @return int|mixed
