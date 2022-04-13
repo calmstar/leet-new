@@ -4,6 +4,28 @@
 输出："fl"
  */
 
+function longestCommonPrefixMy($strs)
+{
+    if (empty($strs)) return '';
+    $res = ''; // 最终结果
+    $i = 0;
+    while (true) {
+        if (!isset($strs[0][$i])) break; // 第一个字符已经到末尾了
+        $tmp = $strs[0][$i];
+        foreach ($strs as $str) { // 依次比较出每个单词
+            if ($str[$i] != $tmp) {
+                break 2; //有一个字母不是任意单词的前缀，则跳出两层的循环
+            }
+        }
+        $res .= $tmp;
+        $i++;
+    }
+    return $res;
+}
+
+
+// -------------
+
 /**
  * 横向比较法
  * @param $strs
@@ -13,7 +35,7 @@ function longestCommonPrefix($strs)
     if (empty($strs)) return '';
     $res = $strs[0];
     foreach ($strs as $v) {
-        $len = strlen($v) > strlen($res) ? strlen($res) : strlen($v);
+        $len = min(strlen($v), strlen($res));
         $temp = '';
         for ($i = 0; $i < $len; $i++) {
             if ($v[$i] == $res[$i]) {
