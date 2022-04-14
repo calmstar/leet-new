@@ -5,6 +5,20 @@ class Solution {
      * https://mp.weixin.qq.com/s/ZhPEchewfc03xWv9VP3msg
      * 计算 最长公共子序列 的长度
      *
+     * 动态规划（自顶向下，由未知的方程直到推到递归出口，然后回归得出结果）
+     *      函数定义：dp(s1, i, s2, j) 表示字符串 s1[i...] 和 s2[j...] 的最长公共子序列
+     *      baseCase ： 当 i==len(s1) && j==len(s2) 时，函数结果为0
+     *      状态转移方程：
+     *          if (s1[i] == s2[j]) {
+                    res = 1 + dp(s1, i+1, s2, j+1) // 相等
+     *          } else {
+     *              res = max(
+     *                  dp(s1, i, s2, j+1),
+     *                  dp(s1, i+1, s2, j),
+     *                  dp(s1, i+1, s2, j+1),
+     *              )// 不相等, 取最长的
+     *          }
+     *
      * @param String $text1
      * @param String $text2
      * @return Integer
@@ -33,7 +47,7 @@ class Solution {
             $this->memo[$t1][$t2] =  max(
                 $this->dp($text1, $text2, $t1+1, $t2, $max1, $max2), // $text1[$t1]的字符 存在于最长公共子序列
                 $this->dp($text1, $text2, $t1, $t2+1, $max1, $max2), //  $text2[$t2]的字符 存在于最长公共子序列
-                $this->dp($text1, $text2, $t1+1, $t2+1, $max1, $max2) //  $text1[$t1] 和 $text2[$t2]的字符 存在于最长公共子序列
+                $this->dp($text1, $text2, $t1+1, $t2+1, $max1, $max2) //  $text1[$t1] 和 $text2[$t2]的字符 都不存在于最长公共子序列
             );
         }
         return $this->memo[$t1][$t2];
@@ -51,8 +65,21 @@ class Solution {
 
     // 迭代求法 -- 自底向上 dp table
     /**
-     * dp[i][j] 代表 s1[0...i-1] s2[0...j-1] 的lcs长度为 dp[i][j]  (dp table 相比索引大1，dp[0][0] 的时候相当于空字符)
      *
+     * 动态规划（自底向上，由已知推向结果）
+     *      定义：
+     *          s1[0...i-1] s2[0...j-1]的lcs长度为 dp[i][j]
+     *              (dp table 相比索引大1，dp[0][0] 的时候相当于空字符)
+     *      baseCase:
+                当有一个字符串为空字符时，结果为0，则：
+     *          dp[0][i] = 0
+     *          dp[0][j] = 0
+     *      状态转移方程：
+     *          if (s1[i] == s2[j]) {
+                    res = dp[i][j] = 1 + dp[i-1][j-1] // 相等，直接 当前字符1 + 上一个状态的最长子序列数量
+     *          } else {
+     *              res = max(dp[i-1][j], dp[i][j-1]) // 不相等，直接取上一个状态中最大的
+     *          }
      *
      * @param $text1
      * @param $text2
