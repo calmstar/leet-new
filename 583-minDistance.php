@@ -2,8 +2,10 @@
 class Solution {
 
     /**
-     * . 两个字符串的删除操作
-     * 只能删除，其实就是计算其最长公共子序列，得到长度，然后相减
+     * https://mp.weixin.qq.com/s/ZhPEchewfc03xWv9VP3msg
+     * 两个字符串的删除操作
+     *
+     * 只能删除，其实就是计算其最长公共子序列，得到长度，然后相减 （转换问题的能力）
      * @param String $word1
      * @param String $word2
      * @return Integer
