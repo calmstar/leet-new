@@ -2,6 +2,24 @@
 class Solution {
 
     /**
+     * https://mp.weixin.qq.com/s/uWzSvWWI-bWAV3UANBtyOw
+     * 函数定义：
+     *      函数dp(s1, s2, i, j) 定义为 s1[0..i]和s2[0..j] 的最小编辑距离
+     * baseCase
+     *      i == -1 时，return j+1
+     *      j == -1 时，return i+1
+     *      即a字符串走完了，剩下的操作步数就是把b字符全部删除
+     * 状态转移方程
+     *      if (s1[i] == s2[j]) {
+                res = dp(s1, s2, i-1, j-1) // 相等
+     *      } else {
+                res = min(
+     *              dp(s1, s2, i, j-1) + 1, // s1添加字符
+     *              dp(s1, s2, i-1, j) + 1, // s1删除字符
+     *              dp(s1, s2, i-1, j-1) + 1 , // s1替换字符
+     *          )
+     *      }
+     *
      * @param String $word1
      * @param String $word2
      * @return Integer
@@ -77,6 +95,60 @@ class Solution {
         }
         return $dp[$w1][$w2];
     }
+
+    // 重新练习
+    /**
+     * 定义：
+     *      dp[i][j] 代表 s1[0..i-1]和s2[0..j-1] 的最小编辑距离.
+     *      ( 类似哨兵节点，往前偏移一位； i-1是s1的索引长度，j-1是s2的索引长度； i=strlen(s1) j=strlen(s2) )
+     * baseCase
+     *      dp[0][j]=0   代表 s1为空的时候， 编辑距离就是s2的长度
+     *      dp[i][0]=0  代表 s2为空的时候， 编辑距离就是s1的长度
+     * 状态转移方程
+     *      if (s1[i-1] == s2[j-1]) {
+                dp[i][j] = dp[i-1][j-1] // 相等, 直接等于上一次的编辑长度
+     *      } else {
+                dp[i][j] = min(
+     *                      dp[i][j-1] + 1, // s1新增字符
+     *                      dp[i-1][j] + 1, // s1删除字符
+     *                      dp[i-1][j-1] + 1, // s1替换字符
+     *                     )
+     *      }
+     *
+     * @param $word1
+     * @param $word2
+     * @return int|void
+     */
+    function xx ($word1, $word2)
+    {
+        if (empty($word2)) return strlen($word1);
+        if (empty($word1)) return strlen($word2);
+        $dp = [];
+        $l1 = strlen($word1);
+        $l2 = strlen($word2);
+        for ($i = 0; $i <= $l1; $i++) {
+            $dp[$i][0] = $i;
+        }
+        for ($j = 0; $j <= $l2; $j++) {
+            $dp[0][$j] = $j;
+        }
+        for ($i = 1; $i <= $l1; $i++) {
+            for ($j = 1; $j <= $l2; $j++) {
+                if ( $word1[$i-1] == $word2[$j-1] ) {
+                    $dp[$i][$j] = $dp[$i-1][$j-1];
+                } else {
+                    $dp[$i][$j] = min(
+                        $dp[$i-1][$j] + 1, // s1删除
+                        $dp[$i][$j-1] + 1,  // s1新增
+                        $dp[$i-1][$j-1] + 1// s1替换
+                    );
+                }
+            }
+        }
+
+        return $dp[$l1][$l2];
+    }
+
 }
 
 
