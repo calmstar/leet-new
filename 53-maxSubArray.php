@@ -31,5 +31,47 @@ function maxSubArray2($nums)
     return max($nums);
 }
 
-$nums = [-2,1,-3,4,-1,2,1,-5,4];
-var_dump(maxSubArray2($nums));
+/**
+ * https://mp.weixin.qq.com/s/nrULqCsRsrPKi3Y-nUfnqg
+ *
+ * -2， 1 ，-3， 4
+    定义：
+ *      dp[i] 代表数组nums中以i为结尾的，最大子数组和
+            dp[0] -2
+            dp[1] 1
+            dp[2] -2
+            dp[3] 4
+ * baseCase:
+ *      i==0 dp[0] = nums[0]
+ *
+ * 状态转移方程
+    if (dp[i-1] < 0) {
+        dp[i] = nums[i]
+    } else {
+        dp[i] = dp[i-1] + nums[i]
+    }
+ *
+ * @param $nums
+ * @return int|mixed
+ */
+function maxSubArray3 ($nums)
+{
+    if (empty($nums)) return 0;
+    $dp = [];
+    $dp[0] = $nums[0];
+    $cou = count($nums);
+    $max = $dp[0];
+    for ($i = 1; $i < $cou; $i++) {
+        if ($dp[$i-1] < 0) {
+            $dp[$i] = $nums[$i];
+        } else {
+            $dp[$i] = $dp[$i-1] + $nums[$i];
+        }
+        $max = max($max, $dp[$i]);
+    }
+    return $max;
+}
+
+
+$nums = [-2,1,-3,4,-1];
+var_dump(xx($nums));
