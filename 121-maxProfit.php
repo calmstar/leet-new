@@ -4,6 +4,10 @@ class Solution {
 
     /**
      * 参考js老毕
+     *
+     * 给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+    你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+    返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
      * @param $prices
      * @return int|mixed
      */
@@ -11,10 +15,9 @@ class Solution {
         $cou = count($prices);
         if ($cou < 2) return 0;
 
-        // 固定卖出时机，向前遍历寻找买入时机（最小的数字）;
-        // 暴力法是固定买入时机，猜测未来的卖出时机，需要暴力遍历
         $currMin = $prices[0];
         $res = 0;
+        // 一次遍历，遍历时保存此前遍历过的最小值，用当前索引值减去历史最小值
         for ($i = 1; $i < $cou; $i++) {
             // 永远保持刷新此前的最小值
             $currMin = min($currMin, $prices[$i]);
@@ -42,6 +45,19 @@ class Solution {
             }
         }
         return $maxProfit;
+    }
+
+    function xx ($prices)
+    {
+        $cou = count($prices);
+        if ($cou == 0) return 0;
+        $min = $prices[0];
+        $res = 0;
+        for ($i = 1; $i < $cou; $i++) {
+            $min = min($prices[$i], $min);
+            $res = max($res, $prices[$i] - $min);
+        }
+        return $res;
     }
 }
 $a = [7,1,5,3,6,4];
