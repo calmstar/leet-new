@@ -2,6 +2,7 @@
 class Solution {
 
     /**
+     * 不限次数的买入和卖出，获得最大利益
      * 参考js老毕
      * @param Integer[] $prices
      * @return Integer
