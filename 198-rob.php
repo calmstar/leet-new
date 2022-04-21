@@ -30,11 +30,15 @@ class Solution {
         return $this->dp($nums, $start);
     }
     private $memo;
-    // 想到baseCase该怎么做
-    // 明确选择和状态
-    // 状态转移方程，dp[i] = max( num[i] + dp[i+2], dp[i+1])
-    //  $num从$start到数组末尾 的最大收益为 dp ($nums, $start)
-    //  自顶向下的递归式的 动态规划方法
+    /**
+     * 自顶向下的递归式的 动态规划方法
+     *  函数定义：
+     *      dp[$nums, $start]
+     *
+     * @param $nums
+     * @param $start
+     * @return int|mixed
+     */
     function dp ($nums, $start) {
         if ($start >= count($nums)) {
             return 0;
@@ -48,7 +52,13 @@ class Solution {
         return $res;
     }
 
-    // 自底向上的迭代式的 动态规划方法
+    /**
+     * 自顶向下的迭代式的 动态规划方法，
+     * 对应的索引应该从小到大，由于本题比较特殊，双向都可以，这里用的是索引从大到小
+     *
+     * @param $nums
+     * @return int|mixed
+     */
     function robV2 ($nums) {
         $cou = count($nums);
 
@@ -60,8 +70,7 @@ class Solution {
         return $dp[0];
     }
 
-    // 内存占用压缩，可以不适用数组dp存储.
-    // 用两个状态就够了 $dp[$i+2]  $dp[$i+1]
+    // v2的内存占用压缩，可以不用数组dp存储。用两个状态就够了 $dp[$i+2]  $dp[$i+1]
     function robV3 ($nums) {
         $cou = count($nums);
         $dp1 = 0;
@@ -75,23 +84,44 @@ class Solution {
         return $dp;
     }
 
-    // ------
-    // [1,2,3, 1] dp[$i] = max($dp[$i-1], $dp[$i-2] + $nums[$i])
-    // 迭代法，自底向上，索引从0开始
+    // ---------下面是自己想的，标准的 自底向上对应索引从小到大； 自顶向下对应索引从大到小 ------
+
+    /**
+     * [1,2,3,1] 4
+     * 状态机思想：
+     *
+     * 状态：索引位置
+     * 选择：抢或不抢
+     *      dp[状态...] = operate(选择1, 选择2)
+     *      dp[索引] = max(抢，不抢)
+     *
+     * 定义：dp[i] 代表在i位置能抢到的最大金额
+     * baseCase： dp[1] = nums[1]
+     * 状态转移方程： dp[i] = max(dp[i-1], dp[i-2] + nums[i])
+     *
+     * @param $nums
+     * @return int|mixed
+     */
     function robV4 ($nums)
     {
-        if (empty($nums)) return 0;
         $cou = count($nums);
+        if (empty($nums)) return 0;
+        if ($cou == 1) return $nums[0] ;
+        if ($cou == 2) return max($nums[0], $nums[1]);
+
+        $dp = [];
         $dp[0] = $nums[0];
         $dp[1] = max($nums[0], $nums[1]);
-
         for ($i = 2; $i < $cou; $i++) {
-            $dp[$i] = max( $dp[$i-1], $dp[$i-2] + $nums[$i] );
+            $dp[$i] = max(
+                $dp[$i-1], // 选择1：不抢当前金额
+                $dp[$i-2] + $nums[$i] // 选择2：抢当前金额
+            );
         }
         return $dp[$cou-1];
     }
 
-    // 压缩变量
+    // v4的压缩变量
     function robV5 ($nums)
     {
         if (empty($nums)) return 0;
@@ -109,7 +139,46 @@ class Solution {
         return $res;
     }
 
+    /**
+     * [1,2,3,1]  4
+     * 函数定义：
+     *      function dp($nums, $i) 代表数组nums在i位置能抢到的最大金额
+     * baseCase
+     *      if ($i == 1) return $nums[1]
+     *      if ($i == 2) return max($nums[1], $nums[2])
+     * 状态转移：
+     *      function dp($nums, $i)
+     *          return max(
+                    $this->dp($nums, $i-1), // 不抢
+                    $this->dp($nums, $i-2) + $nums[$i] // 抢
+     *          )
+     *
+     * @param $nums
+     * @return int|mixed|void
+     */
+    function robV6 ($nums)
+    {
+        $cou = count($nums);
+        if (empty($nums)) return 0;
+        if ($cou == 1) return $nums[0] ;
+        if ($cou == 2) return max($nums[0], $nums[1]);
+        return $this->dpV6($cou-1, $nums);
+    }
+    private $memoV6 = [];
+    function dpV6 ($i, $nums)
+    {
+        if (isset($this->memoV6[$i])) return $this->memoV6[$i];
+        if ($i == 0) return $nums[0];
+        if ($i == 1) return max($nums[0], $nums[1]);
+
+        $this->memoV6[$i] = max(
+            $this->dpV6( $i-1, $nums), // 不抢
+            $this->dpV6( $i-2, $nums) + $nums[$i] // 抢
+        );
+        return $this->memoV6[$i];
+    }
+
 }
-$nums = [1,2,3, 1];
-$res = (new Solution())->robV4($nums);
+$nums = [1,2,3,1];
+$res = (new Solution())->robV6($nums);
 var_dump($res);
