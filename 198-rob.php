@@ -144,8 +144,8 @@ class Solution {
      * 函数定义：
      *      function dp($nums, $i) 代表数组nums在i位置能抢到的最大金额
      * baseCase
-     *      if ($i == 1) return $nums[1]
-     *      if ($i == 2) return max($nums[1], $nums[2])
+     *      if ($i == 0) return $nums[0]
+     *      if ($i == 1) return max($nums[0], $nums[1])
      * 状态转移：
      *      function dp($nums, $i)
      *          return max(
