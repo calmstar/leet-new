@@ -47,7 +47,8 @@ class Solution {
     // -------- 动态规划 --------
     /**
      * 利用动态规划
-     *
+     *  https://mp.weixin.qq.com/s/OyqQXQnyH_UzmxdytK2rTA
+     *  很迷，不懂
      * [1,1,1,1,1] 3
      * 状态，选择（+-）
      * @param $nums
@@ -56,11 +57,26 @@ class Solution {
      */
     function findTargetSumWaysV2 ($nums, $target): int
     {
-
+        if (count($nums) == 0) return 0;
+        return $this->dp($nums, 0, $target);
+    }
+    private $memo = [];
+    function dp ($nums, $i, $rest)
+    {
+        if ($i == count($nums)) {
+            if ($rest == 0) return 1; // 结果符合，+1
+            return 0;
+        }
+        $key = $i . ',' . $rest; // 备忘录的key
+        if (isset($this->memo[$key])) return $this->memo[$key];
+        // 选择+号或者-号
+        $res = $this->dp($nums, $i+1, $rest-$nums[$i]) + $this->dp($nums, $i+1, $rest+$nums[$i]);
+        $this->memo[$key] = $res;
+        return $res;
     }
 
 }
 $nums = [1,1,1,1,1];
 $target = 3;
-$res = (new Solution())->findTargetSumWays($nums, $target);
+$res = (new Solution())->findTargetSumWaysV2($nums, $target);
 var_dump($res);
