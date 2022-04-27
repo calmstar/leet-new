@@ -4,6 +4,7 @@ class Solution {
     /**
      * 参考：https://github.com/labuladong/fucking-algorithm/blob/master/%E5%8A%A8%E6%80%81%E8%A7%84%E5%88%92%E7%B3%BB%E5%88%97/%E9%AB%98%E6%A5%BC%E6%89%94%E9%B8%A1%E8%9B%8B%E9%97%AE%E9%A2%98.md
      *
+     * 正确但是超时
      * 没搞懂，状态机问题
      *
      * @param $k
@@ -35,7 +36,7 @@ class Solution {
         if ($k == 1) return $n; // 只有一个鸡蛋，必须线性去扔
         if ($n == 0) return 0; // 0层楼，不需要扔
         if (isset($this->memo[$k][$n])) return $this->memo[$k][$n];
-        $res = 0;
+        $res = PHP_INT_MAX; // 默认最大
         for ($i = 1; $i <= $n; $i++) {
             $res = min(
                 $res,
@@ -50,7 +51,7 @@ class Solution {
     }
 }
 
-$k = 1;
-$n = 2;
+$k = 2;
+$n = 6; // 预期3
 $res = (new Solution())->superEggDrop($k,$n);
 var_dump($res);
