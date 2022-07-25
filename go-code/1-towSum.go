@@ -35,9 +35,22 @@ func twoSum(nums []int, target int) []int {
 	return targetIndex
 }
 
+func twoSumV2(nums []int, target int) []int {
+	length := len(nums)
+	for i := 0; i < length; i++ {
+		for j := i + 1; j < length; j++ {
+			if nums[i]+nums[j] == target {
+				return []int{i, j}
+			}
+		}
+	}
+	return nil
+}
+
 func main() {
 	nums := []int{3, 2, 4}
 	target := 6
-	res := twoSum(nums, target)
+	//res := twoSum(nums, target)
+	res := twoSumV2(nums, target)
 	fmt.Println(res)
 }
