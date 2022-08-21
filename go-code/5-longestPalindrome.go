@@ -14,8 +14,8 @@ func longestPalindrome(s string) string {
 	sLen := len(s)
 	maxStr := ""
 	for i := 0; i < sLen; i++ {
-		s1 := isPalindrome(i, i, s)
-		s2 := isPalindrome(i, i+1, s)
+		s1 := isPalindromeThis(i, i, s)
+		s2 := isPalindromeThis(i, i+1, s)
 		if len(s1) > len(s2) && len(s1) > len(maxStr) {
 			maxStr = s1
 		}
@@ -26,7 +26,7 @@ func longestPalindrome(s string) string {
 	return maxStr
 }
 
-func isPalindrome(l int, r int, s string) string {
+func isPalindromeThis(l int, r int, s string) string {
 	sLen := len(s)
 	resStr := ""
 	for l >= 0 && r <= sLen-1 {
