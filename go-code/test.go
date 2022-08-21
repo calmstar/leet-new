@@ -35,4 +35,11 @@ func test() {
 	for _, char := range []rune("世界你好") {
 		fmt.Println(string(char))
 	}
+	// -----
+	// rune、byte等实际是整型，必需先将其转换为string才能打印出来，否则打印出来的是一个整数
+	// go中没有字符型，都是用ascii对应的数字来代表
+	cc := 'a'
+	fmt.Println(cc)
+	fmt.Println(string(cc))
+	fmt.Println(string(97))
 }
