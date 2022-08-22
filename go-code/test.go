@@ -1,12 +1,14 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"strconv"
 )
 
 func main() {
-	test()
+	//test()
+	testByteBuffer()
 }
 
 func test() {
@@ -42,4 +44,27 @@ func test() {
 	fmt.Println(cc)
 	fmt.Println(string(cc))
 	fmt.Println(string(97))
+}
+
+func testByteBuffer() {
+	buf1 := bytes.NewBufferString("hello")
+	//fmt.Println(buf1)
+	//fmt.Printf("%T", buf1)
+
+	s1 := " world"
+	buf1.WriteString(s1)
+	fmt.Println(buf1)
+
+	s2 := []byte(" hhhh")
+	buf1.Write(s2)
+	fmt.Println(buf1)
+
+	var s3 byte = '~'
+	buf1.WriteByte(s3)
+	fmt.Println(buf1)
+
+	var s4 rune = '我'
+	buf1.WriteRune(s4)
+	fmt.Println(buf1.String())
+
 }
