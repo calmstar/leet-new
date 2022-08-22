@@ -3,7 +3,9 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"runtime"
 	"strconv"
+	"unsafe"
 )
 
 func main() {
@@ -60,11 +62,17 @@ func testByteBuffer() {
 	fmt.Println(buf1)
 
 	var s3 byte = '~'
+	//s33 := 'a' //自动推导方式。为了兼容utf8类型，存字符直接使用了rune(int32)类型，实际对于英文字母和普通符号，使用byte(uint8)存储就够了
 	buf1.WriteByte(s3)
 	fmt.Println(buf1)
 
 	var s4 rune = '我'
 	buf1.WriteRune(s4)
 	fmt.Println(buf1.String())
+
+	// 证明本机电脑是 64 位
+	a := 3
+	fmt.Printf("hh --%d --", unsafe.Sizeof(a)) // 输出8
+	fmt.Println(runtime.GOARCH)
 
 }
