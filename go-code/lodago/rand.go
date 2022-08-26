@@ -14,7 +14,7 @@ var randInst *rand.Rand
 
 // UUID 生成唯一的uuid
 func UUID() string {
-	uuid, _ := uuid.NewV4()
+	uuid := uuid.NewV4()
 	return uuid.String()
 }
 

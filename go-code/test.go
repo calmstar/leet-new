@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"fmt"
+	"leet-new/go/lodago"
 	"runtime"
 	"strconv"
 	"unsafe"
@@ -10,7 +11,14 @@ import (
 
 func main() {
 	//test()
-	testByteBuffer()
+	//testByteBuffer()
+	hh()
+}
+
+func hh() {
+	a := []interface{}{1, 2, 3}
+	aa := 1
+	fmt.Println(lodago.In_slice(aa, a))
 }
 
 func test() {
