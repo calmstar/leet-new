@@ -28,6 +28,7 @@ function removeElementV2(&$nums, $val)
     $fast = 0;
     $cou = count($nums);
     // [0, 1, 2, 2, 3] num=2  || res:3 [0,1,3,2,2]
+    // [3,2,2,3], val = 3
     while ($fast < $cou) { // [0, slow]是符合规则的区域
         if ($nums[$fast] != $val) {
             $nums[$slow] = $nums[$fast]; // 将不等于val的值，全部移动到左边
