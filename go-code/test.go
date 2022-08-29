@@ -9,8 +9,16 @@ import (
 	"unsafe"
 )
 
-func main() {
-	//test()
+func Test() {
+	slice := make([]int, 0, 4)
+	slice = append(slice, 1, 2, 3)
+	TestSlice(slice)
+	fmt.Println(slice)
+}
+
+func TestSlice(slice []int) {
+	slice = append(slice, 4)
+	slice[0] = 10
 	//testByteBuffer()
 	hh()
 }
@@ -21,7 +29,7 @@ func hh() {
 	fmt.Println(lodago.In_slice(aa, a))
 }
 
-func test() {
+func testV1() {
 	//str := "aa中生cc"
 	////str := "abcde"
 	//strRune := []rune(str)

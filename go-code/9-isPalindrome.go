@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strconv"
 )
 
@@ -16,10 +15,4 @@ func isPalindrome(x int) bool {
 		}
 	}
 	return true
-}
-
-func main() {
-	a := 10
-	res := isPalindrome(a)
-	fmt.Println(res)
 }

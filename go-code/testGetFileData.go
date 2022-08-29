@@ -9,7 +9,7 @@ import (
 	"strings"
 )
 
-func main() {
+func GetFileData() {
 	line := `2022/08/25 16:27:11 /Users/chenwenxing/go/src/tpcheer/login/internal/handler.go:332: [debug] start_user_login: uid: 30983882, country: HK, ip: 137.59.103.202:55753, IdentityType: device`
 	formatAndOutput(line)
 
